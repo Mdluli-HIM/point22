@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Point22® — Visual Archive
 
-## Getting Started
+An independent creative identity and archive of photography, fashion, clothing,
+films, and everyday moments, created with Next.js App Router and TypeScript.
 
-First, run the development server:
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key locations
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/page.tsx`: entry to the archive, with the foundation visual shell.
+- `src/app/information/page.tsx`: editorial information page.
+- `src/app/contact/page.tsx`: contact page scaffold (real contact details not added).
+- `src/app/work/[slug]/page.tsx`: typed dynamic project route.
+- `src/data/projects.ts`: central project list (starts empty intentionally).
+- `src/types/project.ts`: typed image/video and project models.
+- `src/components/navigation/SiteHeader.tsx`: desktop and mobile navigation.
+- `src/providers/SmoothScrollProvider.tsx`: Lenis and GSAP integration.
+- `src/app/globals.css`: global visual design system.
+- `public/images/` and `public/videos/`: real, approved media by category.
 
-## Learn More
+The typography-only gallery stage is temporary. The interactive slider, grid,
+list, optional fisheye shader and entry/loading experience will be implemented
+when we design those sections. No stock media or fabricated portfolio work is included.
 
-To learn more about Next.js, take a look at the following resources:
+## Dependencies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Next.js, React, TypeScript, Tailwind CSS, GSAP, ScrollTrigger, @gsap/react,
+Lenis, Motion, Lucide, Three.js, React Three Fiber and Drei.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Three.js is installed but not imported into the main page or JavaScript bundle
+until advanced effects are built.

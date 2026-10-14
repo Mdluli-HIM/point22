@@ -1,0 +1,2090 @@
+/* ==========================================
+   POINT22 — IMMERSIVE STORY GALLERY
+========================================== */
+
+body:has(.p22-story-page) {
+  background: #050505;
+  color: #fff;
+}
+
+body:has(.p22-story-page) > .site-header {
+  display: none !important;
+}
+
+body:has(.p22-story-page) #main-content {
+  min-height: 100dvh;
+}
+
+.p22-story-page {
+  --story-red: #ff3038;
+
+  position: relative;
+  height: 100dvh;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 76px minmax(0, 1fr) 56px;
+  overflow: hidden;
+
+  background: #050505;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header */
+
+.p22-story-header {
+  position: relative;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 0 clamp(16px, 2vw, 36px);
+}
+
+.p22-story-back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+  letter-spacing: -0.03em;
+}
+
+.p22-story-back span {
+  font-size: 21px;
+  font-weight: 400;
+  transition: transform 0.3s ease;
+}
+
+.p22-story-back:hover span {
+  transform: translateX(-4px);
+}
+
+.p22-story-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.p22-story-heading strong {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+}
+
+.p22-story-heading > span {
+  color: #858585;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.p22-story-switch {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+
+  border-radius: 999px;
+  background: #252525;
+}
+
+.p22-story-switch button {
+  padding: 9px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #e0e0e0;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
+}
+
+.p22-story-switch button.is-active {
+  background: #050505;
+  color: #fff;
+}
+
+.p22-story-switch button:hover:not(.is-active) {
+  background: #373737;
+}
+
+/* Flow canvas */
+
+.p22-story-flow-viewport {
+  position: relative;
+  min-height: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  touch-action: pan-x;
+  cursor: grab;
+  user-select: none;
+}
+
+.p22-story-flow-viewport:active {
+  cursor: grabbing;
+}
+
+.p22-story-flow-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.p22-story-flow-canvas {
+  position: relative;
+  height: 100%;
+  min-height: 600px;
+  isolation: isolate;
+}
+
+.p22-story-backdrop-word {
+  position: absolute;
+  left: 170px;
+  top: 50%;
+  z-index: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(230px, 28vw, 550px);
+  font-weight: 950;
+  letter-spacing: -0.105em;
+  line-height: 0.8;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Floating images */
+
+.p22-story-media-card {
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 3px;
+  background: #171717;
+
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.p22-story-media-card img,
+.p22-story-media-card video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  filter: saturate(0.92);
+  transition:
+    filter 0.5s ease,
+    scale 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.p22-story-media-card img {
+  position: absolute;
+  inset: 0;
+}
+
+.p22-story-media-card:hover img,
+.p22-story-media-card:hover video {
+  scale: 1.055;
+  filter: saturate(1.08);
+}
+
+.p22-flow-card {
+  position: absolute;
+  z-index: 2;
+
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.38);
+  transform-origin: center;
+  transition:
+    box-shadow 0.3s ease,
+    z-index 0s;
+}
+
+.p22-flow-card:hover,
+.p22-flow-card:focus-visible {
+  z-index: 20;
+  box-shadow:
+    0 25px 75px rgba(0, 0, 0, 0.55);
+}
+
+.p22-story-video-mark {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 3;
+  padding: 7px 10px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+/* Grid mode */
+
+.p22-story-grid-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 36px clamp(16px, 3vw, 48px) 60px;
+  scrollbar-color: #333 #050505;
+}
+
+.p22-story-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.p22-grid-card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+}
+
+.p22-grid-card.is-large {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: 1 / 1.33;
+}
+
+/* Footer */
+
+.p22-story-footer {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 clamp(16px, 2vw, 36px);
+  color: #8d8d8d;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+
+.p22-story-footer a {
+  color: #d5d5d5;
+  transition: color 0.2s ease;
+}
+
+.p22-story-footer a:hover {
+  color: var(--story-red);
+}
+
+/* Fullscreen media viewer */
+
+.p22-story-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: grid;
+  grid-template-rows: 72px minmax(0, 1fr) 66px;
+  background: #050505;
+  color: #fff;
+  animation: p22-lightbox-reveal 0.35s ease both;
+}
+
+@keyframes p22-lightbox-reveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.p22-lightbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 clamp(18px, 2.5vw, 45px);
+  font-size: 12px;
+  letter-spacing: 0.025em;
+}
+
+.p22-lightbox-header button {
+  padding: 10px 4px;
+  border: 0;
+  background: transparent;
+  color: white;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.p22-lightbox-stage {
+  position: relative;
+  min-height: 0;
+  margin: 0 clamp(12px, 2vw, 30px);
+}
+
+.p22-lightbox-image {
+  object-fit: contain;
+}
+
+.p22-lightbox-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.p22-lightbox-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(18px, 2.5vw, 45px);
+}
+
+.p22-lightbox-navigation button {
+  padding: 12px 0;
+  border: 0;
+  background: transparent;
+  color: #d0d0d0;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.p22-lightbox-navigation button:hover,
+.p22-lightbox-header button:hover {
+  color: var(--story-red);
+}
+
+/* Accessibility */
+
+.p22-story-page button:focus-visible,
+.p22-story-page a:focus-visible {
+  outline: 2px solid #ff3038;
+  outline-offset: 4px;
+}
+
+/* Tablet */
+
+@media (max-width: 1050px) {
+  .p22-story-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .p22-story-flow-canvas {
+    min-height: 650px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page {
+    grid-template-rows: 112px minmax(0, 1fr) 54px;
+  }
+
+  .p22-story-header {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 48px 52px;
+    padding: 8px 16px 0;
+    gap: 0;
+  }
+
+  .p22-story-back {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 12px;
+  }
+
+  .p22-story-heading {
+    grid-column: 1;
+    grid-row: 2;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .p22-story-heading strong {
+    font-size: 15px;
+  }
+
+  .p22-story-switch {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+
+  .p22-story-switch button {
+    padding: 9px 13px;
+    font-size: 12px;
+  }
+
+  .p22-story-backdrop-word {
+    left: 190px;
+    font-size: 250px;
+  }
+
+  .p22-flow-card {
+    max-width: 270px;
+    max-height: 350px;
+  }
+
+  .p22-story-grid-scroll {
+    padding: 15px 12px 38px;
+  }
+
+  .p22-story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .p22-story-footer {
+    font-size: 9px;
+    padding: 0 16px;
+  }
+
+  .p22-story-lightbox {
+    grid-template-rows: 60px minmax(0, 1fr) 58px;
+  }
+
+  .p22-lightbox-header {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-story-media-card img,
+  .p22-story-media-card video {
+    transition: none;
+  }
+
+  .p22-story-lightbox {
+    animation: none;
+  }
+}
+
+/* ==========================================
+   POINT22 — CONNECTED MOVING FLOW
+========================================== */
+
+/* The viewport is a window into a larger photo world. */
+
+.p22-story-flow-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  overflow-x: auto;
+  overflow-y: auto;
+
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+
+  touch-action: none;
+  cursor: grab;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.p22-story-flow-viewport:active {
+  cursor: grabbing;
+}
+
+.p22-story-flow-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Every photo belongs to one continuous world. */
+
+.p22-story-flow-canvas {
+  position: relative;
+  height: 1550px;
+  min-height: 1550px;
+  overflow: visible;
+  isolation: isolate;
+}
+
+/* Keep images stable as their parent canvas moves. */
+
+.p22-flow-card {
+  position: absolute;
+  flex: none;
+  touch-action: none;
+  cursor: pointer;
+  -webkit-user-drag: none;
+  backface-visibility: hidden;
+}
+
+.p22-flow-card img,
+.p22-flow-card video {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Layered depth without constant individual movement. */
+
+.p22-flow-card {
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.36);
+  transition: box-shadow 0.35s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .p22-flow-card:hover {
+    z-index: 20;
+    box-shadow: 0 25px 75px rgba(0, 0, 0, 0.58);
+  }
+}
+
+/* Keep the overall experience consistent on phones. */
+
+@media (max-width: 720px) {
+  .p22-story-flow-canvas {
+    height: 1450px;
+    min-height: 1450px;
+  }
+
+  .p22-story-flow-viewport {
+    overscroll-behavior: contain;
+    touch-action: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-flow-card {
+    transition: none;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — FIXED BACKGROUND IDENTITY
+========================================== */
+
+/* Stationary visible gallery area */
+.p22-story-flow-stage {
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+  background: #050505;
+}
+
+/* POINT22 stays centred in the viewport */
+.p22-story-flow-stage > .p22-story-backdrop-word {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  z-index: 0;
+
+  transform: translate(-50%, -50%);
+
+  color: #141414;
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(140px, 25vw, 470px);
+  font-weight: 900;
+  letter-spacing: -0.105em;
+  line-height: 0.8;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Only the photographs scroll */
+.p22-story-flow-stage > .p22-story-flow-viewport {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+
+  background: transparent;
+}
+
+/* Keep the moving canvas transparent */
+.p22-story-flow-canvas {
+  background: transparent;
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  .p22-story-flow-stage > .p22-story-backdrop-word {
+    font-size: clamp(130px, 39vw, 260px);
+    color: #141414;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — STATIONARY BACKGROUND FIX
+   No changes to photographic movement
+========================================== */
+
+/* Fixed identity behind the moving photo canvas */
+
+.p22-story-page:has(> .p22-story-flow-viewport)::before {
+  content: "POINT22";
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+
+  transform: translate(-50%, -50%);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(150px, 25vw, 480px);
+  font-weight: 900;
+  letter-spacing: -0.105em;
+  line-height: 0.8;
+
+  color: #141414;
+  white-space: nowrap;
+  text-align: center;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* The camera stays above the fixed background */
+
+.p22-story-page > .p22-story-flow-viewport {
+  position: relative;
+  z-index: 1;
+
+  background: transparent;
+}
+
+/* The complete photographic world remains transparent */
+
+.p22-story-flow-canvas {
+  background: transparent;
+}
+
+/* Hide any old background text inside the moving canvas */
+
+.p22-story-flow-canvas > .p22-story-backdrop-word {
+  display: none !important;
+}
+
+/* Mobile background remains fixed */
+
+@media (max-width: 720px) {
+  .p22-story-page:has(> .p22-story-flow-viewport)::before {
+    font-size: clamp(130px, 39vw, 260px);
+  }
+}
+
+
+/* ==========================================
+   POINT22 — NATURAL GRID PAGE SCROLLING
+========================================== */
+
+/* Only Grid mode becomes a long scrolling page */
+
+.p22-story-page.p22-story-page--grid {
+  height: auto;
+  min-height: 100dvh;
+
+  overflow: visible;
+
+  grid-template-rows:
+    76px
+    auto
+    56px;
+}
+
+/* Navigation stays accessible while scrolling */
+
+.p22-story-page--grid .p22-story-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  min-height: 76px;
+
+  background: rgba(5, 5, 5, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Let the grid grow naturally with its photographs */
+
+.p22-story-page--grid .p22-story-grid-scroll {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+
+  overflow: visible;
+
+  padding-bottom: 90px;
+}
+
+/* Preserve image arrangement */
+
+.p22-story-page--grid .p22-story-grid {
+  height: auto;
+  align-items: stretch;
+}
+
+/* Footer follows the final photograph */
+
+.p22-story-page--grid .p22-story-footer {
+  min-height: 56px;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page.p22-story-page--grid {
+    grid-template-rows:
+      112px
+      auto
+      54px;
+  }
+
+  .p22-story-page--grid .p22-story-header {
+    min-height: 112px;
+  }
+
+  .p22-story-page--grid .p22-story-grid-scroll {
+    padding-bottom: 55px;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — NATURAL GRID PAGE SCROLLING
+========================================== */
+
+/* Only Grid mode becomes a long scrolling page */
+
+.p22-story-page.p22-story-page--grid {
+  height: auto;
+  min-height: 100dvh;
+
+  overflow: visible;
+
+  grid-template-rows:
+    76px
+    auto
+    56px;
+}
+
+/* Navigation stays accessible while scrolling */
+
+.p22-story-page--grid .p22-story-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  min-height: 76px;
+
+  background: rgba(5, 5, 5, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Let the grid grow naturally with its photographs */
+
+.p22-story-page--grid .p22-story-grid-scroll {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+
+  overflow: visible;
+
+  padding-bottom: 90px;
+}
+
+/* Preserve image arrangement */
+
+.p22-story-page--grid .p22-story-grid {
+  height: auto;
+  align-items: stretch;
+}
+
+/* Footer follows the final photograph */
+
+.p22-story-page--grid .p22-story-footer {
+  min-height: 56px;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page.p22-story-page--grid {
+    grid-template-rows:
+      112px
+      auto
+      54px;
+  }
+
+  .p22-story-page--grid .p22-story-header {
+    min-height: 112px;
+  }
+
+  .p22-story-page--grid .p22-story-grid-scroll {
+    padding-bottom: 55px;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — NATURAL GRID PAGE SCROLLING
+========================================== */
+
+/* Only Grid mode becomes a long scrolling page */
+
+.p22-story-page.p22-story-page--grid {
+  height: auto;
+  min-height: 100dvh;
+
+  overflow: visible;
+
+  grid-template-rows:
+    76px
+    auto
+    56px;
+}
+
+/* Navigation stays accessible while scrolling */
+
+.p22-story-page--grid .p22-story-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  min-height: 76px;
+
+  background: rgba(5, 5, 5, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Let the grid grow naturally with its photographs */
+
+.p22-story-page--grid .p22-story-grid-scroll {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+
+  overflow: visible;
+
+  padding-bottom: 90px;
+}
+
+/* Preserve image arrangement */
+
+.p22-story-page--grid .p22-story-grid {
+  height: auto;
+  align-items: stretch;
+}
+
+/* Footer follows the final photograph */
+
+.p22-story-page--grid .p22-story-footer {
+  min-height: 56px;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page.p22-story-page--grid {
+    grid-template-rows:
+      112px
+      auto
+      54px;
+  }
+
+  .p22-story-page--grid .p22-story-header {
+    min-height: 112px;
+  }
+
+  .p22-story-page--grid .p22-story-grid-scroll {
+    padding-bottom: 55px;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — INFINITE TWO-DIMENSIONAL GRID
+========================================== */
+
+/* Grid is now a viewport, not a long page. */
+
+.p22-story-page.p22-story-page--grid {
+  display: grid;
+  grid-template-rows: 76px minmax(0, 1fr) 56px;
+
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.p22-story-page--grid .p22-story-header {
+  position: relative;
+  top: auto;
+  z-index: 40;
+}
+
+.p22-story-page--grid .p22-story-footer {
+  position: relative;
+  z-index: 20;
+}
+
+/* The draggable viewport */
+
+.p22-infinite-grid-viewport {
+  --p22-grid-tile-width: max(1240px, 112vw);
+  --p22-grid-row-height: clamp(260px, 38vh, 410px);
+
+  position: relative;
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: auto;
+  overscroll-behavior: none;
+
+  scrollbar-width: none;
+  scroll-behavior: auto;
+
+  touch-action: none;
+  cursor: grab;
+
+  background: #050505;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.p22-infinite-grid-viewport:active {
+  cursor: grabbing;
+}
+
+.p22-infinite-grid-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* The repeating connected photographic world */
+
+.p22-infinite-grid-world {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, var(--p22-grid-tile-width));
+
+  grid-template-rows:
+    repeat(3, auto);
+
+  gap: 0;
+
+  width: max-content;
+  height: max-content;
+}
+
+/* Identical tiles produce seamless wrapping */
+
+.p22-infinite-grid-tile {
+  box-sizing: border-box;
+
+  width: var(--p22-grid-tile-width);
+
+  height: calc(
+    var(--p22-grid-rows) *
+    var(--p22-grid-row-height)
+  );
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  grid-template-rows:
+    repeat(
+      var(--p22-grid-rows),
+      minmax(0, 1fr)
+    );
+
+  grid-auto-flow: row dense;
+
+  gap: 12px;
+  padding: 6px;
+
+  background: transparent;
+}
+
+/* Image cards */
+
+.p22-infinite-grid-card {
+  position: relative;
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+
+  overflow: hidden;
+
+  background: #151515;
+  cursor: pointer;
+  touch-action: none;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Large editorial image */
+
+.p22-infinite-grid-card.is-featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Actual photographs */
+
+.p22-infinite-grid-card img,
+.p22-infinite-grid-card video {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  pointer-events: none;
+
+  transition:
+    filter 0.45s ease,
+    scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Subtle image response */
+
+@media (hover: hover) and (pointer: fine) {
+  .p22-infinite-grid-card:hover img,
+  .p22-infinite-grid-card:hover video {
+    scale: 1.025;
+    filter: brightness(1.06);
+  }
+}
+
+.p22-infinite-grid-card:focus-visible {
+  outline: 2px solid #ff3038;
+  outline-offset: -4px;
+  z-index: 5;
+}
+
+.p22-grid-video-label {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+
+  padding: 7px 11px;
+
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+
+  font: 10px "Courier New", monospace;
+  letter-spacing: 0.08em;
+
+  pointer-events: none;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page.p22-story-page--grid {
+    grid-template-rows:
+      112px minmax(0, 1fr) 54px;
+
+    height: 100dvh;
+  }
+
+  .p22-infinite-grid-viewport {
+    --p22-grid-tile-width: max(850px, 180vw);
+    --p22-grid-row-height: 250px;
+  }
+
+  .p22-infinite-grid-tile {
+    gap: 8px;
+    padding: 4px;
+  }
+
+  .p22-infinite-grid-card {
+    border-radius: 0;
+  }
+}
+
+/* Respect reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-infinite-grid-card img,
+  .p22-infinite-grid-card video {
+    transition: none;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — INFINITE FLOATING FLOW
+========================================== */
+
+/*
+  Flow uses a repeating photographic world.
+  The large stationary POINT22 backdrop remains
+  outside this moving canvas.
+*/
+
+.p22-story-page > .p22-infinite-flow-viewport {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow-x: auto;
+  overflow-y: auto;
+  overscroll-behavior: none;
+
+  scrollbar-width: none;
+  scroll-behavior: auto;
+
+  touch-action: none;
+  cursor: grab;
+
+  background: transparent;
+
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.p22-infinite-flow-viewport:active {
+  cursor: grabbing;
+}
+
+.p22-infinite-flow-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Nine neighbouring copies of one freeform composition */
+
+.p22-infinite-flow-world {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, var(--p22-flow-tile-width));
+
+  grid-template-rows:
+    repeat(3, var(--p22-flow-tile-height));
+
+  gap: 0;
+
+  width: max-content;
+  height: max-content;
+}
+
+.p22-infinite-flow-tile {
+  position: relative;
+
+  width: var(--p22-flow-tile-width);
+  height: var(--p22-flow-tile-height);
+
+  overflow: visible;
+  isolation: isolate;
+
+  background: transparent;
+}
+
+/* Floating photographs */
+
+.p22-infinite-flow-card {
+  position: absolute;
+  z-index: 2;
+
+  display: block;
+  padding: 0;
+
+  max-width: none;
+  max-height: none;
+
+  border: 0;
+  border-radius: 3px;
+
+  overflow: hidden;
+
+  background: #151515;
+  color: #fff;
+
+  cursor: zoom-in;
+  touch-action: none;
+
+  box-shadow:
+    0 18px 55px rgba(0, 0, 0, 0.35);
+
+  backface-visibility: hidden;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    box-shadow 0.35s ease;
+}
+
+.p22-infinite-flow-card img,
+.p22-infinite-flow-card video {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  transition:
+    scale 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .p22-infinite-flow-card:hover {
+    z-index: 20;
+
+    box-shadow:
+      0 28px 80px rgba(0, 0, 0, 0.58);
+  }
+
+  .p22-infinite-flow-card:hover img,
+  .p22-infinite-flow-card:hover video {
+    scale: 1.045;
+    filter: brightness(1.06);
+  }
+}
+
+.p22-infinite-flow-card:focus-visible {
+  z-index: 21;
+  outline: 2px solid #ff3038;
+  outline-offset: 4px;
+}
+
+.p22-flow-video-mark {
+  position: absolute;
+  z-index: 3;
+
+  right: 12px;
+  bottom: 12px;
+
+  padding: 7px 11px;
+
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+
+  font: 10px "Courier New", monospace;
+  letter-spacing: 0.08em;
+
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .p22-infinite-flow-card {
+    border-radius: 2px;
+  }
+
+  .p22-infinite-flow-card img,
+  .p22-infinite-flow-card video {
+    transition-duration: 0.3s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-infinite-flow-card,
+  .p22-infinite-flow-card img,
+  .p22-infinite-flow-card video {
+    transition: none;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — CURVED PHOTOGRAPHIC REEL
+========================================== */
+
+.p22-story-page > .p22-reel-viewport {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+
+  background: transparent;
+
+  cursor: grab;
+  user-select: none;
+
+  perspective: 1250px;
+  perspective-origin: 50% 50%;
+}
+
+.p22-story-page > .p22-reel-viewport:active {
+  cursor: grabbing;
+}
+
+/* All cards share the same perspective space. */
+
+.p22-reel-stage {
+  position: absolute;
+  inset: 0;
+
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* A single photograph on the rotating reel. */
+
+.p22-reel-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  translate: -50% -50%;
+
+  width: clamp(220px, 20vw, 320px);
+  aspect-ratio: 3 / 4;
+
+  padding: 0;
+  margin: 0;
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 4px;
+
+  background: #171717;
+
+  cursor: zoom-in;
+  pointer-events: auto;
+
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.38);
+
+  will-change: transform, opacity;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Images fill each card exactly. */
+
+.p22-reel-card img,
+.p22-reel-card video {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  pointer-events: none;
+  -webkit-user-drag: none;
+
+  filter: grayscale(1) contrast(1.05);
+
+  transition:
+    filter 0.5s ease,
+    scale 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hover reveals the original colour. */
+
+@media (hover: hover) and (pointer: fine) {
+  .p22-reel-card:hover img,
+  .p22-reel-card:hover video {
+    filter: grayscale(0) contrast(1.05);
+    scale: 1.025;
+  }
+}
+
+.p22-reel-card:focus-visible {
+  outline: 2px solid #ff3038;
+  outline-offset: 4px;
+}
+
+.p22-reel-video-mark {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 2;
+
+  padding: 7px 10px;
+
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+
+  font: 10px "Courier New", monospace;
+  letter-spacing: 0.08em;
+
+  pointer-events: none;
+}
+
+/* Float / Reel view selector */
+
+.p22-flow-style-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  margin-left: auto;
+  padding: 4px;
+
+  border-radius: 100px;
+  background: #292929;
+}
+
+.p22-flow-style-switch button {
+  min-width: 68px;
+  min-height: 36px;
+
+  padding: 9px 17px;
+
+  border: 0;
+  border-radius: 100px;
+
+  background: transparent;
+  color: #d5d5d5;
+
+  font: 13px Arial, Helvetica, sans-serif;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.p22-flow-style-switch button.is-active {
+  background: #050505;
+  color: #fff;
+}
+
+.p22-flow-style-switch button:hover:not(.is-active) {
+  background: #414141;
+}
+
+.p22-flow-style-switch button:focus-visible {
+  outline: 2px solid #ff3038;
+  outline-offset: 2px;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page > .p22-reel-viewport {
+    perspective: 900px;
+  }
+
+  .p22-reel-card {
+    width: clamp(170px, 55vw, 255px);
+    border-radius: 3px;
+  }
+
+  .p22-flow-style-switch button {
+    min-width: 58px;
+    min-height: 34px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .p22-reel-card img,
+  .p22-reel-card video {
+    transition-duration: 0.25s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-reel-card img,
+  .p22-reel-card video,
+  .p22-flow-style-switch button {
+    transition: none;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — CURVED PHOTOGRAPHIC REEL
+========================================== */
+
+.p22-story-page > .p22-reel-viewport {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+
+  background: transparent;
+
+  cursor: grab;
+  user-select: none;
+
+  perspective: 1250px;
+  perspective-origin: 50% 50%;
+}
+
+.p22-story-page > .p22-reel-viewport:active {
+  cursor: grabbing;
+}
+
+/* All cards share the same perspective space. */
+
+.p22-reel-stage {
+  position: absolute;
+  inset: 0;
+
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* A single photograph on the rotating reel. */
+
+.p22-reel-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  translate: -50% -50%;
+
+  width: clamp(220px, 20vw, 320px);
+  aspect-ratio: 3 / 4;
+
+  padding: 0;
+  margin: 0;
+
+  overflow: hidden;
+
+  border: 0;
+  border-radius: 4px;
+
+  background: #171717;
+
+  cursor: zoom-in;
+  pointer-events: auto;
+
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.38);
+
+  will-change: transform, opacity;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Images fill each card exactly. */
+
+.p22-reel-card img,
+.p22-reel-card video {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  pointer-events: none;
+  -webkit-user-drag: none;
+
+  filter: grayscale(1) contrast(1.05);
+
+  transition:
+    filter 0.5s ease,
+    scale 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hover reveals the original colour. */
+
+@media (hover: hover) and (pointer: fine) {
+  .p22-reel-card:hover img,
+  .p22-reel-card:hover video {
+    filter: grayscale(0) contrast(1.05);
+    scale: 1.025;
+  }
+}
+
+.p22-reel-card:focus-visible {
+  outline: 2px solid #ff3038;
+  outline-offset: 4px;
+}
+
+.p22-reel-video-mark {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 2;
+
+  padding: 7px 10px;
+
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+
+  font: 10px "Courier New", monospace;
+  letter-spacing: 0.08em;
+
+  pointer-events: none;
+}
+
+/* Float / Reel view selector */
+
+.p22-flow-style-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  margin-left: auto;
+  padding: 4px;
+
+  border-radius: 100px;
+  background: #292929;
+}
+
+.p22-flow-style-switch button {
+  min-width: 68px;
+  min-height: 36px;
+
+  padding: 9px 17px;
+
+  border: 0;
+  border-radius: 100px;
+
+  background: transparent;
+  color: #d5d5d5;
+
+  font: 13px Arial, Helvetica, sans-serif;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.p22-flow-style-switch button.is-active {
+  background: #050505;
+  color: #fff;
+}
+
+.p22-flow-style-switch button:hover:not(.is-active) {
+  background: #414141;
+}
+
+.p22-flow-style-switch button:focus-visible {
+  outline: 2px solid #ff3038;
+  outline-offset: 2px;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+  .p22-story-page > .p22-reel-viewport {
+    perspective: 900px;
+  }
+
+  .p22-reel-card {
+    width: clamp(170px, 55vw, 255px);
+    border-radius: 3px;
+  }
+
+  .p22-flow-style-switch button {
+    min-width: 58px;
+    min-height: 34px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .p22-reel-card img,
+  .p22-reel-card video {
+    transition-duration: 0.25s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-reel-card img,
+  .p22-reel-card video,
+  .p22-flow-style-switch button {
+    transition: none;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — SHARED PHOTOGRAPH TRANSITIONS
+========================================== */
+
+/* No unnecessary whole-page flash. */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* The selected photograph travels between
+   its original card and the full-screen viewer. */
+
+::view-transition-group(p22-gallery-image) {
+  animation-duration: 850ms;
+  animation-timing-function:
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(p22-gallery-image),
+::view-transition-new(p22-gallery-image) {
+  animation-duration: 850ms;
+  animation-timing-function:
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Avoid blur and distortion during the transition. */
+
+.p22-story-media-card img,
+.p22-infinite-flow-card img,
+.p22-infinite-grid-card img,
+.p22-lightbox-image {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Keep the viewer clean. */
+
+.p22-story-lightbox {
+  isolation: isolate;
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(p22-gallery-image),
+  ::view-transition-old(p22-gallery-image),
+  ::view-transition-new(p22-gallery-image) {
+    animation-duration: 0.01ms;
+  }
+}
+
+
+
+
+/* POINT22 — CINEMATIC GALLERY FOCUS */
+
+/*
+  Applies only to Float and Grid.
+  Reel maintains its independent WebGL transitions.
+*/
+
+.p22-story-page > .p22-infinite-flow-viewport,
+.p22-story-page > .p22-infinite-grid-viewport {
+  transform: translateZ(0) scale(1);
+  opacity: 1;
+  transform-origin: center center;
+
+  transition:
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 700ms ease;
+}
+
+/* Pull the photographic environment away. */
+
+.p22-story-page:has(> .p22-story-lightbox)
+> .p22-infinite-flow-viewport,
+
+.p22-story-page:has(> .p22-story-lightbox)
+> .p22-infinite-grid-viewport {
+  transform: translateZ(0) scale(0.965);
+  opacity: 0.48;
+}
+
+/* A controlled cinematic darkening effect. */
+
+.p22-story-page:has(> .p22-infinite-flow-viewport)
+> .p22-story-lightbox,
+
+.p22-story-page:has(> .p22-infinite-grid-viewport)
+> .p22-story-lightbox {
+  background: rgba(5, 5, 5, 0.97);
+
+  animation:
+    p22-gallery-curtain 650ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes p22-gallery-curtain {
+  from {
+    background-color: rgba(5, 5, 5, 0);
+  }
+
+  to {
+    background-color: rgba(5, 5, 5, 0.97);
+  }
+}
+
+/* Let the full-screen controls follow the photograph. */
+
+.p22-story-page:has(> .p22-infinite-flow-viewport)
+.p22-lightbox-header,
+
+.p22-story-page:has(> .p22-infinite-grid-viewport)
+.p22-lightbox-header,
+
+.p22-story-page:has(> .p22-infinite-flow-viewport)
+.p22-lightbox-navigation,
+
+.p22-story-page:has(> .p22-infinite-grid-viewport)
+.p22-lightbox-navigation {
+  animation:
+    p22-gallery-controls-enter 600ms
+    220ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+@keyframes p22-gallery-controls-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile: lighter movement. */
+
+@media (max-width: 720px) {
+  .p22-story-page:has(> .p22-story-lightbox)
+  > .p22-infinite-flow-viewport,
+
+  .p22-story-page:has(> .p22-story-lightbox)
+  > .p22-infinite-grid-viewport {
+    transform: scale(0.985);
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-story-page > .p22-infinite-flow-viewport,
+  .p22-story-page > .p22-infinite-grid-viewport {
+    transition: none;
+  }
+
+  .p22-story-page:has(> .p22-infinite-flow-viewport)
+  > .p22-story-lightbox,
+
+  .p22-story-page:has(> .p22-infinite-grid-viewport)
+  > .p22-story-lightbox,
+
+  .p22-lightbox-header,
+  .p22-lightbox-navigation {
+    animation: none !important;
+  }
+}
+
+
+/* POINT22 — CINEMATIC VIEWER NAVIGATION */
+
+html[data-p22-viewer-nav]
+::view-transition-group(p22-gallery-image) {
+  animation-duration: 760ms !important;
+  animation-timing-function:
+    cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* NEXT: current photograph moves left. */
+
+html[data-p22-viewer-nav="next"]
+::view-transition-old(p22-gallery-image) {
+  animation:
+    p22-viewer-next-out 760ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both !important;
+}
+
+html[data-p22-viewer-nav="next"]
+::view-transition-new(p22-gallery-image) {
+  animation:
+    p22-viewer-next-in 760ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both !important;
+}
+
+@keyframes p22-viewer-next-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(-9%, 0, 0) scale(0.94);
+    filter: blur(5px);
+  }
+}
+
+@keyframes p22-viewer-next-in {
+  from {
+    opacity: 0;
+    transform: translate3d(9%, 0, 0) scale(1.055);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* PREVIOUS: reverse the movement. */
+
+html[data-p22-viewer-nav="previous"]
+::view-transition-old(p22-gallery-image) {
+  animation:
+    p22-viewer-previous-out 760ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both !important;
+}
+
+html[data-p22-viewer-nav="previous"]
+::view-transition-new(p22-gallery-image) {
+  animation:
+    p22-viewer-previous-in 760ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both !important;
+}
+
+@keyframes p22-viewer-previous-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(9%, 0, 0) scale(0.94);
+    filter: blur(5px);
+  }
+}
+
+@keyframes p22-viewer-previous-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-9%, 0, 0) scale(1.055);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Mobile: smaller travel and no expensive blur. */
+
+@media (max-width: 720px) {
+  html[data-p22-viewer-nav]
+  ::view-transition-old(p22-gallery-image),
+  html[data-p22-viewer-nav]
+  ::view-transition-new(p22-gallery-image) {
+    filter: none;
+    animation-duration: 560ms !important;
+  }
+}
+
+/* Respect accessibility settings. */
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-p22-viewer-nav]
+  ::view-transition-old(p22-gallery-image),
+  html[data-p22-viewer-nav]
+  ::view-transition-new(p22-gallery-image) {
+    animation: none !important;
+  }
+}
