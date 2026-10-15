@@ -5,8 +5,10 @@ import "@/styles/archive.css";
 export default function HomePage() {
   return (
     <>
+    <>
       <ArchiveHome />
       <ArchiveColorFocus />
+    </>
     </>
   );
 }

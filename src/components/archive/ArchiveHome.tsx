@@ -1,5 +1,6 @@
 "use client";
 
+import Point22Header from "@/components/archive/Point22Header";
 import ArchiveMotion from "@/components/archive/ArchiveMotion";
 
 import Image from "next/image";
@@ -118,13 +119,9 @@ export default function ArchiveHome() {
   const tallRight = works[3];
   const stripBottom = works[4];
 
-  const goNext = () => {
-    setActiveIndex((prev) => (prev + 1) % works.length);
-  };
+  
 
-  const goPrev = () => {
-    setActiveIndex((prev) => (prev - 1 + works.length) % works.length);
-  };
+  
 
   return (
     <>
@@ -139,58 +136,7 @@ export default function ArchiveHome() {
             );
           }}
         />
-        <header className="p22-reference-header p22-topbar">
-          <div className="p22-topbar-brand">
-            <Link
-              href="/"
-              className="p22-topbar-logo"
-              aria-label="Point22 home"
-            >
-              POINT22<sup>®</sup>
-            </Link>
-
-            <span
-              className="p22-topbar-divider"
-              aria-hidden="true"
-            />
-
-            <p className="p22-topbar-statement">
-              THROUGH MY EYES.
-              <span>NO FIXED FRAME.</span>
-            </p>
-          </div>
-
-          <nav
-            className="p22-topbar-nav"
-            aria-label="Primary navigation"
-          >
-            <Link
-              href="/"
-              className="p22-topbar-link is-current"
-              aria-current="page"
-            >
-              THE VIEW
-            </Link>
-
-            <Link
-              href="/information"
-              className="p22-topbar-link"
-            >
-              ABOUT
-            </Link>
-          </nav>
-
-          <div className="p22-topbar-right">
-
-            <Link
-              href="/contact"
-              className="p22-topbar-contact"
-            >
-              CONNECT
-              <span aria-hidden="true">↗</span>
-            </Link>
-          </div>
-        </header>
+        <Point22Header />
 
         <section className="p22-reference-grid">
           <article className="p22-feature-panel">
@@ -378,42 +324,44 @@ export default function ArchiveHome() {
           </article>
         </section>
 
+        
         <footer
-          className="p22-reference-footer p22-ruler-footer"
-          aria-label="Archive navigation"
+          className="p22-reference-footer p22-home-social-footer"
+          aria-label="Stretch22 social media"
         >
-          <div
-            className="p22-ruler-label"
-            aria-live="polite"
-            aria-atomic="true"
+          <span className="p22-home-social-name">
+            Stretch22
+          </span>
+
+          <a
+            className="p22-home-instagram"
+            href="https://www.instagram.com/stretch22_/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit Stretch22 on Instagram"
           >
-            {String(activeIndex + 1).padStart(2, "0")}
-            {" / "}
-            {String(works.length).padStart(2, "0")}
-          </div>
-
-          <div className="p22-ruler-controls">
-            <button
-              type="button"
-              onClick={goPrev}
-              aria-label="Previous image"
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              ←
-            </button>
-
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Next image"
-            >
-              →
-            </button>
-          </div>
-
-          <div
-            className="p22-ruler-ticks"
-            aria-hidden="true"
-          />
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </a>
         </footer>
       </main>
     </>

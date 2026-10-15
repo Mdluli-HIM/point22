@@ -1,0 +1,1353 @@
+/* ==========================================
+   POINT22 — TWO SCENE HORIZONTAL EXPERIENCE
+========================================== */
+
+html:has(.p22-horizontal-experience),
+body:has(.p22-horizontal-experience) {
+  overflow: hidden;
+}
+
+.p22-horizontal-experience {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+
+  overflow: hidden;
+  background: #0b0b0b;
+}
+
+/* Exactly two full-screen scenes */
+
+.p22-horizontal-rail {
+  display: flex;
+
+  width: 200%;
+  height: 100%;
+
+  transform: translate3d(0, 0, 0);
+
+  transition:
+    transform 1100ms
+    cubic-bezier(0.76, 0, 0.24, 1);
+
+  will-change: transform;
+}
+
+.p22-horizontal-rail.is-gallery {
+  transform: translate3d(-50%, 0, 0);
+}
+
+.p22-horizontal-panel {
+  position: relative;
+
+  flex: 0 0 50%;
+
+  width: 50%;
+  height: 100%;
+
+  min-width: 0;
+  overflow: hidden;
+}
+
+.p22-horizontal-home {
+  isolation: isolate;
+  touch-action: pan-y;
+}
+
+.p22-showcase {
+  display: flex;
+  flex-direction: column;
+
+  color: #f1f1f1;
+  background: #101010;
+}
+
+/* ==========================================
+   ONE CONTINUOUS IMAGE CAROUSEL
+========================================== */
+
+.p22-carousel-stage {
+  position: relative;
+
+  flex: 1 1 auto;
+  min-height: 0;
+
+  width: 100%;
+  overflow: hidden;
+
+  background: #0a0a0a;
+
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+
+  perspective: 1400px;
+}
+
+.p22-carousel-stage:active {
+  cursor: grabbing;
+}
+
+.p22-carousel-photo {
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: clamp(235px, 29vw, 540px);
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #171717;
+
+  will-change: transform;
+
+  transition:
+    transform 850ms
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Disable easing while the visitor physically
+   drags the strip, then animate to the next image. */
+
+.p22-carousel-stage.is-dragging
+.p22-carousel-photo {
+  transition: none;
+}
+
+.p22-carousel-photo img {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  filter: grayscale(1) brightness(0.43);
+
+  transform: scale(1.005);
+
+  pointer-events: none;
+  -webkit-user-drag: none;
+
+  transition:
+    filter 800ms
+      cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1000ms
+      cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.p22-carousel-photo.is-active img {
+  filter: grayscale(0) brightness(1);
+}
+
+.p22-carousel-photo.is-active {
+  z-index: 2;
+}
+
+.p22-carousel-photo:not(.is-active) {
+  z-index: 1;
+}
+
+/* Click a neighbouring photograph to bring it
+   into the centre without opening a new page. */
+
+.p22-carousel-select {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Small view-project link over centre photo */
+
+.p22-carousel-open {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+
+  padding: 12px 17px;
+
+  border: 1px solid rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.23);
+
+  color: #fff;
+  font: 700 11px ui-monospace, monospace;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-decoration: none;
+
+  backdrop-filter: blur(5px);
+
+  transition:
+    background 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease;
+}
+
+.p22-carousel-open:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #101010;
+}
+
+.p22-carousel-stage.is-fisheye
+.p22-carousel-photo:not(.is-active) img {
+  transform: scale(1.055);
+}
+
+.p22-carousel-stage.is-fisheye
+.p22-carousel-photo.is-active img {
+  transform: scale(1.025);
+}
+
+/* ==========================================
+   EDITORIAL FOOTER
+========================================== */
+
+.p22-showcase-hud {
+  position: relative;
+
+  flex: 0 0 clamp(132px, 16vh, 166px);
+
+  display: grid;
+  grid-template-columns: 1fr 1.25fr 1fr;
+
+  align-items: center;
+
+  gap: 16px;
+
+  width: 100%;
+
+  padding:
+    12px clamp(20px, 3vw, 52px)
+    25px;
+
+  background: #101010;
+}
+
+.p22-showcase-hud-left,
+.p22-showcase-hud-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.5vw, 24px);
+
+  min-width: 0;
+}
+
+.p22-showcase-hud-right {
+  justify-content: flex-end;
+}
+
+.p22-showcase-back,
+.p22-showcase-brand,
+.p22-showcase-fisheye {
+  flex-shrink: 0;
+  color: #ddd;
+  background: transparent;
+  cursor: pointer;
+}
+
+.p22-showcase-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 11px;
+
+  border: 1px solid #484848;
+
+  font: 11px ui-monospace, monospace;
+  letter-spacing: 0.04em;
+
+  transition:
+    background 250ms ease,
+    border-color 250ms ease;
+}
+
+.p22-showcase-back:hover {
+  background: #292929;
+  border-color: #a5a5a5;
+}
+
+.p22-showcase-back span {
+  font-size: 17px;
+}
+
+.p22-showcase-brand {
+  padding: 0;
+  border: 0;
+
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+
+  color: white;
+
+  transition: opacity 250ms ease;
+}
+
+.p22-showcase-brand:hover {
+  opacity: 0.55;
+}
+
+.p22-showcase-fisheye {
+  padding: 10px 12px;
+
+  border: 1px solid #454545;
+
+  font: 11px ui-monospace, monospace;
+  white-space: nowrap;
+
+  transition:
+    background 250ms ease,
+    border-color 250ms ease;
+}
+
+.p22-showcase-fisheye:hover,
+.p22-showcase-fisheye[aria-pressed="true"] {
+  background: #262626;
+  border-color: #b7b7b7;
+}
+
+.p22-showcase-hud-middle {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  gap: 6px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  font-family: ui-monospace, monospace;
+}
+
+.p22-showcase-indicator {
+  display: block;
+
+  width: 0;
+  height: 0;
+  margin-bottom: 3px;
+
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 10px solid #fa4148;
+}
+
+.p22-showcase-hud-middle strong {
+  max-width: 100%;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: clamp(12px, 1.1vw, 17px);
+  font-weight: 700;
+}
+
+.p22-showcase-hud-middle > span:last-child {
+  font-size: 11px;
+  letter-spacing: 0.035em;
+  color: #888;
+}
+
+.p22-showcase-view {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 11px 13px;
+
+  border: 1px solid #606060;
+
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+
+  font: 11px ui-monospace, monospace;
+
+  transition:
+    background 250ms ease,
+    color 250ms ease;
+}
+
+.p22-showcase-view:hover {
+  background: white;
+  color: #0a0a0a;
+}
+
+.p22-showcase-preview {
+  position: relative;
+  display: block;
+
+  flex: 0 0 100px;
+
+  width: 100px;
+  height: 60px;
+
+  border: 1px solid #777;
+  overflow: hidden;
+}
+
+.p22-showcase-preview img {
+  object-fit: cover;
+}
+
+/* Bottom film-strip ruler */
+
+.p22-showcase-ruler {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 17px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #595959 0 1px,
+      transparent 1px 14px
+    ) left bottom / 100% 11px no-repeat;
+
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.p22-showcase-ruler::after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+
+  width: 2px;
+  height: 17px;
+
+  background: #fa4148;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+  .p22-showcase-hud {
+    padding-inline: 20px;
+    gap: 10px;
+  }
+
+  .p22-showcase-brand {
+    display: none;
+  }
+
+  .p22-showcase-preview {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .p22-carousel-photo {
+    width: 70vw;
+  }
+
+  .p22-showcase-hud {
+    flex-basis: 154px;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    gap: 5px 10px;
+    padding: 10px 14px 22px;
+  }
+
+  .p22-showcase-hud-left {
+    grid-column: 1;
+    grid-row: 1;
+    gap: 8px;
+  }
+
+  .p22-showcase-hud-middle {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .p22-showcase-hud-right {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .p22-showcase-back {
+    padding: 8px 9px;
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .p22-showcase-fisheye {
+    padding: 8px;
+    font-size: 9px;
+  }
+
+  .p22-showcase-view {
+    padding: 9px;
+    font-size: 10px;
+  }
+
+  .p22-showcase-hud-middle strong {
+    font-size: 12px;
+  }
+
+  .p22-carousel-open {
+    padding: 11px 13px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-horizontal-rail,
+  .p22-carousel-photo,
+  .p22-carousel-photo img {
+    transition: none;
+  }
+}
+
+/* ==========================================
+   POINT22 — TIMESTAMP RAIL
+========================================== */
+
+.p22-showcase-hud {
+  padding-bottom: 46px;
+}
+
+.p22-showcase-timestamp {
+  position: absolute;
+  left: clamp(20px, 3vw, 52px);
+  right: clamp(20px, 3vw, 52px);
+  bottom: 10px;
+
+  display: grid;
+  gap: 8px;
+
+  pointer-events: none;
+}
+
+.p22-showcase-timestamp-line {
+  position: relative;
+  height: 18px;
+
+  opacity: 0.82;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.26) 0 1px,
+      transparent 1px 16px
+    ) center / 100% 12px no-repeat;
+}
+
+.p22-showcase-timestamp-line::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-50%);
+}
+
+.p22-showcase-timestamp-marker {
+  position: absolute;
+  left: 50%;
+  top: -6px;
+
+  width: 2px;
+  height: 28px;
+
+  background: #fa4148;
+  transform: translateX(-50%);
+  box-shadow: 0 0 18px rgba(250, 65, 72, 0.25);
+}
+
+.p22-showcase-timestamp-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #d2d2d2;
+  font: 11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.11em;
+}
+
+.p22-showcase-timestamp-date {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.p22-showcase-timestamp-time {
+  color: #c6c6c6;
+}
+
+.p22-showcase-timestamp-location {
+  color: #8f8f8f;
+}
+
+.p22-showcase-timestamp-divider {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 720px) {
+  .p22-showcase-hud {
+    padding-bottom: 42px;
+  }
+
+  .p22-showcase-timestamp {
+    left: 14px;
+    right: 14px;
+    bottom: 8px;
+    gap: 6px;
+  }
+
+  .p22-showcase-timestamp-line {
+    height: 14px;
+    background-size: 100% 10px;
+  }
+
+  .p22-showcase-timestamp-marker {
+    top: -4px;
+    height: 22px;
+  }
+
+  .p22-showcase-timestamp-content {
+    gap: 6px;
+    font-size: 9px;
+    letter-spacing: 0.09em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-showcase-timestamp-marker {
+    box-shadow: none;
+  }
+}
+
+/* =========================================================
+   POINT22 — ANALOG TIMESTAMP RAIL UPGRADE
+========================================================= */
+
+.p22-showcase-timestamp {
+  --p22-ts-progress: 0.5;
+  --p22-ts-velocity: 0;
+
+  position: absolute;
+  left: clamp(18px, 2.8vw, 54px);
+  right: clamp(18px, 2.8vw, 54px);
+  bottom: 12px;
+
+  display: grid;
+  gap: 10px;
+
+  pointer-events: none;
+  z-index: 6;
+}
+
+.p22-showcase-timestamp-line {
+  position: relative;
+  height: 22px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.06)
+    ) center / 100% 1px no-repeat,
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.18) 0 1px,
+      transparent 1px 15px
+    ) center / 100% 14px no-repeat;
+}
+
+.p22-showcase-timestamp-line::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.04) 20%,
+      rgba(255,255,255,0.12) 50%,
+      rgba(255,255,255,0.04) 80%,
+      transparent 100%
+    );
+
+  transform: translateX(calc((var(--p22-ts-progress) - 0.5) * 80px));
+  opacity: calc(0.3 + (var(--p22-ts-velocity) * 0.35));
+  will-change: transform, opacity;
+}
+
+.p22-showcase-timestamp-marker {
+  position: absolute;
+  left: calc(var(--p22-ts-progress) * 100%);
+  top: 50%;
+
+  width: 2px;
+  height: 32px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 58, 68, 0.5) 0%,
+    #ff424a 28%,
+    #ff424a 72%,
+    rgba(255, 58, 68, 0.35) 100%
+  );
+
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 1px rgba(255, 66, 74, 0.08),
+    0 0 18px rgba(255, 66, 74, 0.22),
+    0 0 34px rgba(255, 66, 74, 0.12);
+
+  will-change: left, transform, box-shadow;
+}
+
+.p22-showcase-timestamp-marker::before {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  top: -7px;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 999px;
+  background: #ff424a;
+  transform: translateX(-50%);
+  box-shadow:
+    0 0 14px rgba(255, 66, 74, 0.32),
+    0 0 30px rgba(255, 66, 74, 0.14);
+}
+
+.p22-showcase-timestamp-marker::after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+
+  width: 28px;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 66, 74, 0.78),
+    transparent
+  );
+
+  transform: translateX(-50%);
+  opacity: 0.75;
+}
+
+.p22-showcase-timestamp-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  min-height: 34px;
+  padding: 0 14px;
+
+  color: #d8d8d8;
+  text-transform: uppercase;
+  text-align: center;
+
+  font: 11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.12em;
+
+  transform:
+    translate3d(
+      calc((var(--p22-ts-progress) - 0.5) * 24px),
+      calc(var(--p22-ts-velocity) * -3px),
+      0
+    );
+  filter: blur(calc(var(--p22-ts-velocity) * 0.55px));
+  opacity: calc(0.92 + (var(--p22-ts-velocity) * 0.08));
+
+  transition:
+    opacity 220ms ease,
+    filter 220ms ease;
+
+  will-change: transform, filter, opacity;
+}
+
+.p22-showcase-timestamp.is-moving .p22-showcase-timestamp-content {
+  opacity: 1;
+}
+
+.p22-showcase-timestamp-kicker {
+  color: rgba(255,255,255,0.46);
+  letter-spacing: 0.16em;
+}
+
+.p22-showcase-timestamp-date {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.p22-showcase-timestamp-time {
+  color: #d4d4d4;
+}
+
+.p22-showcase-timestamp-location {
+  color: #9a9a9a;
+}
+
+.p22-showcase-timestamp-divider {
+  color: rgba(255,255,255,0.28);
+}
+
+@media (max-width: 720px) {
+  .p22-showcase-timestamp {
+    left: 14px;
+    right: 14px;
+    bottom: 8px;
+    gap: 8px;
+  }
+
+  .p22-showcase-timestamp-line {
+    height: 18px;
+    background-size: 100% 1px, 100% 12px;
+  }
+
+  .p22-showcase-timestamp-marker {
+    height: 24px;
+  }
+
+  .p22-showcase-timestamp-marker::before {
+    width: 8px;
+    height: 8px;
+    top: -5px;
+  }
+
+  .p22-showcase-timestamp-content {
+    gap: 6px;
+    min-height: 28px;
+    padding: 0 8px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .p22-showcase-timestamp-kicker {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-showcase-timestamp-line::before,
+  .p22-showcase-timestamp-marker,
+  .p22-showcase-timestamp-content {
+    transition: none;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* ==========================================
+   POINT22 — CONTEXT-AWARE GALLERY CURSOR
+========================================== */
+
+.p22-gallery-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 80;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 76px;
+  height: 37px;
+
+  background: rgba(8, 8, 8, 0.28);
+  color: #fff;
+
+  pointer-events: none;
+  user-select: none;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    width 330ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 190ms ease,
+    background 250ms ease;
+
+  will-change: transform, opacity;
+}
+
+.p22-gallery-cursor[data-visible="true"] {
+  visibility: visible;
+  opacity: 1;
+}
+
+.p22-gallery-cursor[data-mode="view"] {
+  width: 131px;
+  background: rgba(8, 8, 8, 0.38);
+}
+
+.p22-gallery-cursor[data-pressing="true"] {
+  width: 69px;
+  background: rgba(8, 8, 8, 0.55);
+}
+
+.p22-gallery-cursor-label {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.015em;
+
+  white-space: nowrap;
+}
+
+/* Independent fine-corner brackets */
+
+.p22-gallery-cursor-corner {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+
+  border-color: rgba(255, 255, 255, 0.94);
+  border-style: solid;
+  border-width: 0;
+}
+
+.p22-gallery-cursor-tl {
+  top: 0;
+  left: 0;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.p22-gallery-cursor-tr {
+  top: 0;
+  right: 0;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
+.p22-gallery-cursor-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+
+.p22-gallery-cursor-br {
+  bottom: 0;
+  right: 0;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* Hide the normal cursor only inside the gallery.
+   Buttons in the footer retain their normal pointer. */
+
+@media (hover: hover) and (pointer: fine) {
+  .p22-showcase .p22-carousel-stage,
+  .p22-showcase .p22-carousel-stage * {
+    cursor: none !important;
+  }
+}
+
+/* No decorative follower on touchscreen devices. */
+
+@media (hover: none), (pointer: coarse) {
+  .p22-gallery-cursor {
+    display: none !important;
+  }
+}
+
+/* An older version of the gallery may still have
+   an active-photo overlay link. Keep it functional,
+   but remove its permanent visible text. */
+
+.p22-showcase .p22-carousel-open {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transform: none;
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+  backdrop-filter: none;
+
+  color: transparent;
+  font-size: 0;
+  text-indent: -9999px;
+
+  overflow: hidden;
+}
+
+.p22-showcase .p22-carousel-open:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-gallery-cursor {
+    transition: none;
+  }
+}
+
+/* ==========================================
+   POINT22 — EMBLA SCROLLING ENGINE
+   Applies ONLY to the second gallery scene.
+========================================== */
+
+.p22-showcase .p22-carousel-stage {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.p22-showcase .p22-embla-track {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: stretch;
+  will-change: transform;
+  user-select: none;
+}
+
+.p22-showcase .p22-embla-track > .p22-carousel-photo {
+  position: relative;
+  inset: auto;
+
+  flex: 0 0 clamp(235px, 29vw, 540px);
+  width: clamp(235px, 29vw, 540px);
+  min-width: 0;
+  height: 100%;
+
+  transition: none !important;
+  overflow: hidden;
+}
+
+.p22-showcase .p22-embla-track > .p22-carousel-photo img {
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 720px) {
+  .p22-showcase .p22-embla-track > .p22-carousel-photo {
+    flex-basis: 70vw;
+    width: 70vw;
+  }
+}
+
+
+/* POINT22 — STANDALONE TIMELINE PAGE */
+
+.p22-timeline-route .p22-horizontal-rail,
+.p22-timeline-route .p22-horizontal-rail.is-gallery {
+  width: 100% !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.p22-timeline-route .p22-horizontal-home {
+  display: none !important;
+}
+
+.p22-timeline-route .p22-horizontal-panel.p22-showcase {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================
+   POINT22 — TIMELINE PAGE NAVIGATION
+========================================== */
+
+:root {
+  --p22-timeline-header-height: 76px;
+}
+
+/* Prevent native horizontal history overscroll
+   while the standalone Timeline page is open. */
+
+html:has(.p22-timeline-route),
+body:has(.p22-timeline-route) {
+  overscroll-behavior-x: none;
+}
+
+.p22-timeline-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 200;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  height: var(--p22-timeline-header-height);
+  padding: 0 clamp(24px, 3vw, 54px);
+
+  background: #101010;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+}
+
+.p22-timeline-nav-brand {
+  flex: 0 0 auto;
+
+  color: #f4f4f4;
+  text-decoration: none;
+
+  font-family: inherit;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+
+  transition: opacity 250ms ease;
+}
+
+.p22-timeline-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: clamp(20px, 3vw, 48px);
+}
+
+.p22-timeline-nav-links a {
+  position: relative;
+
+  padding: 10px 0;
+
+  color: #999;
+  text-decoration: none;
+  white-space: nowrap;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+
+  transition: color 250ms ease;
+}
+
+.p22-timeline-nav-links a:hover,
+.p22-timeline-nav-links a[aria-current="page"],
+.p22-timeline-nav-brand:hover {
+  color: #fff;
+}
+
+.p22-timeline-nav-links a[aria-current="page"]::after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+  background: #f0444a;
+
+  transform: translateX(-50%);
+}
+
+/* Only the standalone gallery is offset.
+   The homepage is not affected. */
+
+.p22-horizontal-experience.p22-timeline-route {
+  top: var(--p22-timeline-header-height);
+  bottom: 0;
+
+  height: calc(
+    100svh - var(--p22-timeline-header-height)
+  );
+
+  overscroll-behavior-x: none;
+}
+
+.p22-timeline-route .p22-horizontal-rail,
+.p22-timeline-route .p22-carousel-stage {
+  overscroll-behavior-x: none;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --p22-timeline-header-height: 68px;
+  }
+
+  .p22-timeline-nav {
+    gap: 14px;
+    padding: 0 15px;
+  }
+
+  .p22-timeline-nav-brand {
+    font-size: 17px;
+  }
+
+  .p22-timeline-nav-links {
+    gap: 13px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .p22-timeline-nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .p22-timeline-nav-links a {
+    font-size: 10px;
+  }
+}
+
+
+/* POINT22 — MINIMAL TIMELINE NAVIGATION */
+
+.p22-timeline-nav-links a {
+  text-decoration: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background-image: none !important;
+
+  filter: none;
+  opacity: 1;
+
+  transition:
+    opacity 250ms ease,
+    filter 250ms ease,
+    color 250ms ease;
+}
+
+/* No dots or active-page underlines. */
+.p22-timeline-nav-links a::before,
+.p22-timeline-nav-links a::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Only Timeline is active on /timeline. */
+.p22-timeline-nav-links a[aria-current="page"] {
+  filter: blur(0.8px);
+  opacity: 0.45;
+  color: #fff;
+  text-decoration: none !important;
+  border: 0 !important;
+}
+
+.p22-timeline-nav-links a:not([aria-current="page"]):hover {
+  filter: none;
+  opacity: 1;
+  color: #fff;
+}
+
+
+
+/* ==========================================
+   POINT22 — SHARED WEBSITE HEADER
+   Homepage and Timeline use the same markup,
+   typography, spacing and active-link styling.
+========================================== */
+
+.p22-site-header--timeline.p22-reference-header.p22-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  width: 100%;
+}
+
+/* The old Timeline navigation selectors are
+   no longer used by the shared header. */
+
+@media (max-width: 760px) {
+  .p22-site-header--timeline.p22-reference-header.p22-topbar {
+    min-height: 94px;
+  }
+
+  .p22-horizontal-experience.p22-timeline-route {
+    top: 94px !important;
+    height: calc(100svh - 94px) !important;
+  }
+}

@@ -1,0 +1,300 @@
+/* ==============================================
+   POINT22 — ANALOG FILM TRANSPORT
+============================================== */
+
+.p22-showcase .p22-showcase-hud {
+  flex: 0 0 clamp(156px, 18vh, 186px);
+  padding-bottom: 75px;
+}
+
+/* The timeline is a window onto the moving ruler. */
+
+.p22-analog-timeline {
+  position: absolute;
+  left: clamp(18px, 3vw, 52px);
+  right: clamp(18px, 3vw, 52px);
+  bottom: 10px;
+  z-index: 20;
+
+  height: 60px;
+  overflow: hidden;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Stationary track viewport */
+
+.p22-analog-scale {
+  position: relative;
+  width: 100%;
+  height: 30px;
+
+  overflow: hidden;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+}
+
+.p22-analog-baseline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+
+  height: 1px;
+
+  background: rgba(255,255,255,0.12);
+}
+
+/* Moving ruler, positioned beneath the playhead */
+
+.p22-analog-film {
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: 0;
+  height: 100%;
+
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Each segment is exactly one photograph wide. */
+
+.p22-analog-segment {
+  position: absolute;
+  top: 0;
+
+  height: 100%;
+
+  overflow: hidden;
+}
+
+/* Small analog divisions — decorative, not stops */
+
+.p22-analog-segment::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+
+  height: 9px;
+
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.24) 0 1px,
+      transparent 1px var(--p22-tick-step)
+    );
+
+  background-repeat: repeat-x;
+}
+
+/* Medium subdivisions */
+
+.p22-analog-segment::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+
+  height: 16px;
+
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.34) 0 1px,
+      transparent 1px var(--p22-quarter-step)
+    );
+
+  background-repeat: repeat-x;
+}
+
+/* One long marker per photograph */
+
+.p22-analog-long-tick {
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+
+  z-index: 2;
+
+  display: block;
+
+  width: 1px;
+  height: 27px;
+
+  background: rgba(255,255,255,0.72);
+}
+
+/* Fixed centre playhead */
+
+.p22-analog-playhead {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 10;
+
+  width: 2px;
+  height: 30px;
+
+  transform: translateX(-50%);
+
+  background: #f0444a;
+}
+
+.p22-analog-playhead-tip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  width: 0;
+  height: 0;
+
+  transform: translate(-50%, -10%);
+
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid #f0444a;
+}
+
+/* Only the active photograph's capture details */
+
+.p22-analog-current {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+  height: 30px;
+
+  padding: 0 10px;
+
+  text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
+  font-size: 10px;
+  letter-spacing: 0.09em;
+
+  animation: p22-capture-enter 260ms ease-out both;
+}
+
+.p22-analog-date {
+  color: #f4f4f4;
+  font-weight: 700;
+}
+
+.p22-analog-time {
+  color: #c5c5c5;
+}
+
+.p22-analog-location {
+  color: #858585;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p22-analog-divider {
+  color: #565656;
+}
+
+@keyframes p22-capture-enter {
+  from {
+    opacity: 0.25;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The photo carousel owns the movement easing.
+   The ruler must never lag behind its photographs. */
+
+.p22-showcase .p22-carousel-photo {
+  transition: none !important;
+}
+
+.p22-showcase .p22-carousel-photo img {
+  transition: none !important;
+}
+
+@media (max-width: 720px) {
+  .p22-showcase .p22-showcase-hud {
+    flex-basis: 180px;
+    padding-bottom: 70px;
+  }
+
+  .p22-analog-timeline {
+    left: 13px;
+    right: 13px;
+    bottom: 8px;
+    height: 58px;
+  }
+
+  .p22-analog-current {
+    gap: 6px;
+    font-size: 9px;
+    letter-spacing: 0.035em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-analog-current {
+    animation: none;
+  }
+}
+
+
+/* POINT22 — RESTORED SMOOTH CAROUSEL */
+
+/* Photographs visibly slide instead of teleporting. */
+
+.p22-showcase .p22-carousel-photo {
+  transition:
+    transform 760ms
+    cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* Direct pointer dragging must remain responsive. */
+
+.p22-showcase .p22-carousel-stage.is-dragging
+.p22-carousel-photo {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-showcase .p22-carousel-photo {
+    transition: none !important;
+  }
+}
