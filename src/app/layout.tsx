@@ -4,8 +4,10 @@ import { Geist } from "next/font/google";
 import { Suspense, type ReactNode } from "react";
 import { SiteHeader } from "@/components/navigation/SiteHeader";
 import { SmoothScrollProvider } from "@/providers/SmoothScrollProvider";
+import { PageTransitionProvider } from "@/components/transitions/PageTransitionProvider";
 import { navigation, site } from "@/data/site";
 import "lenis/dist/lenis.css";
+import "@fontsource/walter-turncoat/400.css";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -50,9 +52,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         >
           <SiteHeader />
         </Suspense>
-        <SmoothScrollProvider>
-          <main id="main-content">{children}</main>
-        </SmoothScrollProvider>
+        <PageTransitionProvider>
+          <SmoothScrollProvider>
+            <main id="main-content">{children}</main>
+          </SmoothScrollProvider>
+        </PageTransitionProvider>
       </body>
     </html>
   );

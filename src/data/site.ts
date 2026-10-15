@@ -8,6 +8,6 @@ export const site = {
 
 export const navigation = [
   { label: "Archive", href: "/#archive" },
-  { label: "Information", href: "/information" },
-  { label: "Contact", href: "/contact" },
+  
+  
 ] as const;

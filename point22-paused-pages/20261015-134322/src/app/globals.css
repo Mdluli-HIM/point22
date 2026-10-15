@@ -1,0 +1,4111 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #101010;
+  --paper: #f2f0ea;
+  --pure-white: #fff;
+  --stone: #777775;
+  --signal: #e54a2a;
+  --gutter: clamp(16px, 3vw, 42px);
+  --header-height: 78px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+::selection { background: var(--signal); color: white; }
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  padding: 12px 16px;
+  background: var(--pure-white);
+  transform: translateY(-180%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  height: var(--header-height);
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: var(--gutter);
+  color: var(--ink);
+}
+.site-logo {
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.085em;
+  line-height: 1;
+}
+.site-logo > span { letter-spacing: -0.065em; }
+.site-logo sup {
+  margin-left: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0;
+  vertical-align: top;
+}
+.desktop-navigation { display: flex; align-items: center; gap: clamp(20px, 2.4vw, 42px); }
+.desktop-navigation a,
+.mobile-menu-toggle {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: opacity 0.2s ease;
+}
+.desktop-navigation a:hover, .mobile-menu-toggle:hover { opacity: 0.5; }
+.desktop-navigation a[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+.mobile-menu-toggle { display: none; border: 0; padding: 10px 0 10px 14px; background: none; cursor: pointer; }
+.mobile-navigation { display: none; }
+
+.home-hero {
+  min-height: 100svh;
+  background: var(--paper);
+  padding: calc(var(--header-height) + 64px) var(--gutter) 34px;
+  display: flex;
+  align-items: flex-end;
+}
+.home-hero-inner { width: 100%; }
+.home-eyebrow,
+.archive-intro,
+.archive-outro {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+}
+.home-title {
+  margin: clamp(48px, 9vh, 110px) 0 clamp(48px, 11vh, 120px);
+  font-size: clamp(66px, 12.5vw, 250px);
+  font-weight: 650;
+  line-height: 0.82;
+  letter-spacing: -0.095em;
+  white-space: nowrap;
+}
+.home-title > span { display: block; }
+.home-title-stop { color: var(--signal); }
+.home-hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+.home-hero-bottom p { max-width: 290px; margin: 0; font-size: clamp(12px, 1vw, 15px); line-height: 1.4; }
+.underlined-link { font-size: 12px; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; white-space: nowrap; }
+.underlined-link:hover { color: var(--signal); }
+.archive-section { min-height: 100svh; background: var(--ink); color: var(--paper); padding: 42px var(--gutter) 30px; }
+.archive-intro h2 { margin: 0; font-size: inherit; font-weight: inherit; text-transform: uppercase; }
+.archive-canvas {
+  min-height: min(78svh, 820px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.archive-canvas-type {
+  font-size: clamp(165px, 37vw, 800px);
+  line-height: 0.8;
+  letter-spacing: -0.14em;
+  font-weight: 780;
+  margin-right: 0.14em;
+  opacity: 0.11;
+  user-select: none;
+}
+.archive-canvas-caption { position: absolute; text-align: center; font-size: clamp(14px, 2vw, 25px); line-height: 1.25; }
+.archive-canvas-caption p { margin: 0.15em; }
+.archive-outro { align-items: center; }
+.archive-outro .underlined-link { text-transform: none; }
+.editorial-page { min-height: 100svh; padding: calc(var(--header-height) + 85px) var(--gutter) 90px; }
+.page-eyebrow { margin: 0 0 clamp(48px, 8vh, 100px); font-size: 11px; font-weight: 500; }
+.editorial-page > h1 {
+  max-width: 1200px;
+  margin: 0 0 clamp(100px, 18vh, 220px);
+  font-size: clamp(50px, 8vw, 150px);
+  font-weight: 550;
+  line-height: 0.97;
+  letter-spacing: -0.075em;
+}
+.editorial-page h1 em { font-weight: 400; font-style: normal; color: var(--stone); }
+.editorial-grid { border-top: 1px solid currentColor; display: grid; grid-template-columns: 1fr 2fr; gap: 35px; padding-top: 23px; }
+.editorial-grid > p { margin: 0; max-width: 640px; font-size: clamp(18px, 2.4vw, 34px); line-height: 1.22; letter-spacing: -0.035em; }
+.editorial-label { font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.editorial-grid ul { margin: 0; padding: 0; list-style: none; font-size: clamp(24px, 3vw, 46px); line-height: 1.3; letter-spacing: -0.04em; }
+.contact-page > h1 { margin-bottom: 35px; }
+.contact-description { max-width: 590px; margin: 0; font-size: clamp(18px, 2.4vw, 30px); line-height: 1.3; }
+
+@media (max-width: 767px) {
+  :root { --header-height: 66px; }
+  .site-logo { font-size: 20px; }
+  .desktop-navigation { display: none; }
+  .mobile-menu-toggle { display: block; }
+  .mobile-navigation {
+    position: fixed;
+    z-index: 20;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 100px var(--gutter) 50px;
+    background: var(--paper);
+  }
+  .mobile-navigation > a { font-size: clamp(42px, 10vw, 72px); font-weight: 600; letter-spacing: -0.07em; line-height: 1.05; }
+  .mobile-navigation-note { position: absolute; bottom: 32px; left: var(--gutter); font-size: 11px; }
+  .home-hero { padding-top: 100px; padding-bottom: 28px; }
+  .home-eyebrow { font-size: 9px; }
+  .home-eyebrow > span:last-child { text-align: right; }
+  .home-title { margin: 62px 0 62px; font-size: clamp(51px, 13.1vw, 105px); letter-spacing: -0.09em; }
+  .home-hero-bottom { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .home-hero-bottom p { max-width: 250px; }
+  .archive-section { padding-top: 27px; }
+  .archive-intro, .archive-outro { font-size: 9px; }
+  .archive-intro > span { max-width: 170px; text-align: right; }
+  .archive-canvas { min-height: 66svh; }
+  .archive-outro { align-items: flex-end; }
+  .editorial-page { padding-top: 136px; }
+  .editorial-page > h1 { margin-bottom: 100px; }
+  .editorial-grid { grid-template-columns: 1fr; gap: 24px; }
+  .editorial-label:not(:first-child) { margin-top: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* =========================================
+   POINT22 — ENTRY EXPERIENCE
+========================================= */
+
+.p22-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #101010;
+  color: #fff;
+  isolation: isolate;
+}
+
+.p22-intro-media,
+.p22-intro-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.p22-intro-media {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.p22-intro-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.78) brightness(0.7);
+}
+
+.p22-intro-shade {
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.42) 45%,
+    rgba(0, 0, 0, 0.58) 100%
+  );
+}
+
+.p22-intro-content {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 20px 110px;
+}
+
+.p22-intro-identity {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: #ff3038;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(65px, 9.2vw, 155px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.085em;
+  white-space: nowrap;
+  padding-right: 0.07em;
+}
+
+.p22-intro-registered {
+  display: inline-block;
+  margin-top: 0.08em;
+  margin-left: 0.07em;
+  font-size: 0.24em;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.p22-intro-description {
+  max-width: 440px;
+  margin: 32px 0 0;
+  color: #b4b4b4;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.p22-intro-description span {
+  display: block;
+}
+
+.p22-intro-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.p22-intro-enter {
+  min-width: 205px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  border: none;
+  border-radius: 100px;
+  background: #ff3038;
+  color: #080808;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.3s ease;
+}
+
+.p22-intro-enter:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.p22-intro-enter-quiet {
+  border: 0;
+  background: rgba(255, 48, 56, 0.08);
+  color: #f0f0f0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(255, 48, 56, 0.18),
+    0 0 16px rgba(255, 48, 56, 0.14);
+  text-shadow: 0 0 8px rgba(255, 48, 56, 0.22);
+  animation: p22StretchPulse 1.8s ease-in-out infinite;
+  transition:
+    color 0.2s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.p22-intro-enter-quiet:hover {
+  color: #ffffff;
+  background: rgba(255, 48, 56, 0.14);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255, 48, 56, 0.28),
+    0 0 24px rgba(255, 48, 56, 0.24);
+}
+
+.p22-intro-enter:focus-visible,
+.p22-intro-enter-quiet:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 5px;
+}
+
+.p22-intro-bottom {
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.p22-intro-progress {
+  margin: 0 0 35px;
+  color: #ff3038;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.p22-intro-ruler {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  opacity: 0.88;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #ff3038 0px,
+      #ff3038 1px,
+      transparent 1px,
+      transparent 13px
+    );
+  background-repeat: repeat-x;
+  background-size: 100% 11px;
+  background-position: bottom;
+}
+
+.p22-intro-ruler::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #ff3038 0px,
+      #ff3038 1px,
+      transparent 1px,
+      transparent 91px
+    );
+  background-repeat: repeat-x;
+  background-size: 100% 28px;
+}
+
+
+@keyframes p22StretchPulse {
+  0%,
+  100% {
+    opacity: 0.88;
+    box-shadow:
+      0 0 0 1px rgba(255, 48, 56, 0.18),
+      0 0 16px rgba(255, 48, 56, 0.14);
+    text-shadow: 0 0 8px rgba(255, 48, 56, 0.18);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 1px rgba(255, 48, 56, 0.32),
+      0 0 28px rgba(255, 48, 56, 0.28);
+    text-shadow: 0 0 14px rgba(255, 48, 56, 0.3);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .p22-intro-content {
+    padding: 70px 18px 115px;
+  }
+
+  .p22-intro-identity {
+    font-size: clamp(45px, 12.8vw, 95px);
+  }
+
+  .p22-intro-registered {
+    font-size: 0.22em;
+  }
+
+  .p22-intro-description {
+    margin-top: 25px;
+    max-width: 310px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  .p22-intro-actions {
+    margin-top: 30px;
+    gap: 17px;
+  }
+
+  .p22-intro-enter {
+    min-width: 195px;
+    min-height: 47px;
+    font-size: 12px;
+  }
+
+  .p22-intro-progress {
+    margin-bottom: 27px;
+  }
+
+  .p22-intro-ruler {
+    height: 22px;
+  }
+
+  .p22-intro-ruler::before {
+    background-size: 100% 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-intro-enter,
+  .p22-intro-enter-quiet {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* =========================================
+   POINT22 — ENTRY EXPERIENCE
+========================================= */
+
+.p22-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #101010;
+  color: #fff;
+  isolation: isolate;
+}
+
+.p22-intro-media,
+.p22-intro-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.p22-intro-media {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.p22-intro-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.78) brightness(0.7);
+}
+
+.p22-intro-shade {
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.42) 45%,
+    rgba(0, 0, 0, 0.58) 100%
+  );
+}
+
+.p22-intro-content {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 20px 110px;
+}
+
+.p22-intro-identity {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: #ff3038;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(65px, 9.2vw, 155px);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.085em;
+  white-space: nowrap;
+  padding-right: 0.07em;
+}
+
+.p22-intro-registered {
+  display: inline-block;
+  margin-top: 0.08em;
+  margin-left: 0.07em;
+  font-size: 0.24em;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.p22-intro-description {
+  max-width: 440px;
+  margin: 32px 0 0;
+  color: #b4b4b4;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.p22-intro-description span {
+  display: block;
+}
+
+.p22-intro-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.p22-intro-enter {
+  min-width: 205px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 26px;
+  border: none;
+  border-radius: 100px;
+  background: #ff3038;
+  color: #080808;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.3s ease;
+}
+
+.p22-intro-enter:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.p22-intro-enter-quiet {
+  border: 0;
+  background: rgba(255, 48, 56, 0.08);
+  color: #f0f0f0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(255, 48, 56, 0.18),
+    0 0 16px rgba(255, 48, 56, 0.14);
+  text-shadow: 0 0 8px rgba(255, 48, 56, 0.22);
+  animation: p22StretchPulse 1.8s ease-in-out infinite;
+  transition:
+    color 0.2s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.p22-intro-enter-quiet:hover {
+  color: #ffffff;
+  background: rgba(255, 48, 56, 0.14);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255, 48, 56, 0.28),
+    0 0 24px rgba(255, 48, 56, 0.24);
+}
+
+.p22-intro-enter:focus-visible,
+.p22-intro-enter-quiet:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 5px;
+}
+
+.p22-intro-bottom {
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.p22-intro-progress {
+  margin: 0 0 35px;
+  color: #ff3038;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.p22-intro-ruler {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  opacity: 0.88;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #ff3038 0px,
+      #ff3038 1px,
+      transparent 1px,
+      transparent 13px
+    );
+  background-repeat: repeat-x;
+  background-size: 100% 11px;
+  background-position: bottom;
+}
+
+.p22-intro-ruler::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #ff3038 0px,
+      #ff3038 1px,
+      transparent 1px,
+      transparent 91px
+    );
+  background-repeat: repeat-x;
+  background-size: 100% 28px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .p22-intro-content {
+    padding: 70px 18px 115px;
+  }
+
+  .p22-intro-identity {
+    font-size: clamp(45px, 12.8vw, 95px);
+  }
+
+  .p22-intro-registered {
+    font-size: 0.22em;
+  }
+
+  .p22-intro-description {
+    margin-top: 25px;
+    max-width: 310px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  .p22-intro-actions {
+    margin-top: 30px;
+    gap: 17px;
+  }
+
+  .p22-intro-enter {
+    min-width: 195px;
+    min-height: 47px;
+    font-size: 12px;
+  }
+
+  .p22-intro-progress {
+    margin-bottom: 27px;
+  }
+
+  .p22-intro-ruler {
+    height: 22px;
+  }
+
+  .p22-intro-ruler::before {
+    background-size: 100% 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-intro-enter,
+  .p22-intro-enter-quiet {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* POINT22 — FRAMELESS STRETCH TEXT GLOW */
+
+.p22-intro-enter-quiet {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #f5f5f5;
+  padding: 8px 14px;
+  transform: none;
+  animation: p22TextGlow 2.4s ease-in-out infinite;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.p22-intro-enter-quiet:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #ffffff;
+  transform: none;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 18px rgba(255, 48, 56, 0.65);
+}
+
+@keyframes p22TextGlow {
+  0%, 100% {
+    opacity: 0.8;
+    text-shadow:
+      0 0 3px rgba(255, 255, 255, 0.2);
+  }
+
+  50% {
+    opacity: 1;
+    text-shadow:
+      0 0 7px rgba(255, 255, 255, 0.7),
+      0 0 14px rgba(255, 48, 56, 0.45),
+      0 0 24px rgba(255, 48, 56, 0.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-intro-enter-quiet {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ================================================
+   POINT22 — RETRO PIXEL LOADER
+================================================ */
+
+.p22-intro-bottom {
+  position: absolute;
+  bottom: clamp(18px, 4vh, 38px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.p22-pixel-panel {
+  width: min(300px, calc(100vw - 36px));
+  padding: 12px 13px 9px;
+  background: #04e526;
+  border: 3px solid #080808;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.p22-pixel-track {
+  width: 100%;
+  height: 29px;
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 2px;
+  padding: 3px;
+  border: 3px solid #080808;
+  background: #04e526;
+  overflow: hidden;
+}
+
+.p22-pixel-block {
+  display: block;
+  min-width: 0;
+  height: 100%;
+  opacity: 0;
+  border: 2px solid #080808;
+  background: #04e526;
+  transition: opacity 0.06s steps(1, end);
+}
+
+.p22-pixel-block.is-filled {
+  opacity: 1;
+}
+
+.p22-pixel-status {
+  margin: 0;
+  color: #080808;
+  font-family: "Courier New", monospace;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .p22-intro-bottom {
+    bottom: 22px;
+  }
+
+  .p22-pixel-panel {
+    width: min(255px, calc(100vw - 36px));
+    padding: 10px 11px 8px;
+    gap: 8px;
+  }
+
+  .p22-pixel-track {
+    height: 26px;
+  }
+
+  .p22-pixel-status {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-pixel-block {
+    transition: none;
+  }
+}
+
+
+/* ================================================
+   POINT22 — RETRO PIXEL LOADER
+================================================ */
+
+.p22-intro-bottom {
+  position: absolute;
+  bottom: clamp(18px, 4vh, 38px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.p22-pixel-panel {
+  width: min(300px, calc(100vw - 36px));
+  padding: 12px 13px 9px;
+  background: #04e526;
+  border: 3px solid #080808;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.p22-pixel-track {
+  width: 100%;
+  height: 29px;
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 2px;
+  padding: 3px;
+  border: 3px solid #080808;
+  background: #04e526;
+  overflow: hidden;
+}
+
+.p22-pixel-block {
+  display: block;
+  min-width: 0;
+  height: 100%;
+  opacity: 0;
+  border: 2px solid #080808;
+  background: #04e526;
+  transition: opacity 0.06s steps(1, end);
+}
+
+.p22-pixel-block.is-filled {
+  opacity: 1;
+}
+
+.p22-pixel-status {
+  margin: 0;
+  color: #080808;
+  font-family: "Courier New", monospace;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .p22-intro-bottom {
+    bottom: 22px;
+  }
+
+  .p22-pixel-panel {
+    width: min(255px, calc(100vw - 36px));
+    padding: 10px 11px 8px;
+    gap: 8px;
+  }
+
+  .p22-pixel-track {
+    height: 26px;
+  }
+
+  .p22-pixel-status {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-pixel-block {
+    transition: none;
+  }
+}
+
+
+.p22-intro:focus {
+  outline: none;
+}
+
+
+/* ==========================================
+   POINT22 — CLEAN RED PIXEL LOADER
+========================================== */
+
+.p22-intro-bottom {
+  bottom: clamp(22px, 4vh, 42px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.p22-pixel-panel {
+  width: min(250px, calc(100vw - 48px));
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 11px;
+}
+
+/* Only the loading bar has an outline */
+.p22-pixel-track {
+  width: 100%;
+  height: 27px;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 3px;
+  background: transparent;
+  border: 2px solid #ff3038;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Individual retro loading blocks */
+.p22-pixel-block {
+  min-width: 0;
+  height: 100%;
+  opacity: 0;
+  background: transparent;
+  border: 1px solid #ff3038;
+  border-radius: 0;
+  box-shadow: none;
+  transition: opacity 0.07s steps(1, end);
+}
+
+/* Filled blocks */
+.p22-pixel-block.is-filled {
+  opacity: 1;
+  background: #ff3038;
+  border-color: #ff3038;
+  box-shadow: 0 0 6px rgba(255, 48, 56, 0.3);
+}
+
+/* Loading / Ready text */
+.p22-pixel-status {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #ff3038;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(255, 48, 56, 0.25);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .p22-intro-bottom {
+    bottom: 26px;
+  }
+
+  .p22-pixel-panel {
+    width: min(220px, calc(100vw - 48px));
+    padding: 0;
+    gap: 10px;
+  }
+
+  .p22-pixel-track {
+    height: 24px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .p22-pixel-status {
+    font-size: 12px;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — CLEAN RED PIXEL LOADER
+========================================== */
+
+.p22-intro-bottom {
+  bottom: clamp(22px, 4vh, 42px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.p22-pixel-panel {
+  width: min(250px, calc(100vw - 48px));
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 11px;
+}
+
+/* Only the loading bar has an outline */
+.p22-pixel-track {
+  width: 100%;
+  height: 27px;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 3px;
+  background: transparent;
+  border: 2px solid #ff3038;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* Individual retro loading blocks */
+.p22-pixel-block {
+  min-width: 0;
+  height: 100%;
+  opacity: 0;
+  background: transparent;
+  border: 1px solid #ff3038;
+  border-radius: 0;
+  box-shadow: none;
+  transition: opacity 0.07s steps(1, end);
+}
+
+/* Filled blocks */
+.p22-pixel-block.is-filled {
+  opacity: 1;
+  background: #ff3038;
+  border-color: #ff3038;
+  box-shadow: 0 0 6px rgba(255, 48, 56, 0.3);
+}
+
+/* Loading / Ready text */
+.p22-pixel-status {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #ff3038;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(255, 48, 56, 0.25);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .p22-intro-bottom {
+    bottom: 26px;
+  }
+
+  .p22-pixel-panel {
+    width: min(220px, calc(100vw - 48px));
+    padding: 0;
+    gap: 10px;
+  }
+
+  .p22-pixel-track {
+    height: 24px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .p22-pixel-status {
+    font-size: 12px;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — CINEMATIC STRETCH TRANSITION
+========================================== */
+
+.p22-intro {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.p22-intro--exiting {
+  pointer-events: none;
+}
+
+.p22-intro-identity,
+.p22-intro-video {
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.p22-exit-line {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+
+  background: #ff3038;
+
+  transform: scaleX(0);
+  transform-origin: center center;
+
+  opacity: 0;
+  pointer-events: none;
+
+  box-shadow:
+    0 0 12px rgba(255, 48, 56, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-exit-line {
+    display: none;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — PREMIUM STRETCH EXIT V2
+========================================== */
+
+.p22-intro--exiting {
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Thin cinematic transition edge */
+.p22-intro--exiting::after {
+  content: "";
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #ff3038;
+  box-shadow: 0 0 12px rgba(255, 48, 56, 0.35);
+  pointer-events: none;
+}
+
+/* Disable the old clipped transition line */
+.p22-intro--exiting .p22-exit-line {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-intro--exiting::after {
+    display: none;
+  }
+}
+
+
+
+/* ==========================================
+   POINT22 — PHOTOGRAPHIC PAGE TRANSITION
+   Homepage -> Timeline
+   ========================================== */
+
+.p22-route-shutter {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100dvh;
+  padding: clamp(20px, 3vw, 48px);
+  box-sizing: border-box;
+
+  background: #070707;
+  color: #f5f5f2;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+  overflow: hidden;
+}
+
+.p22-route-shutter::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  pointer-events: none;
+}
+
+.p22-route-shutter-meta,
+.p22-route-shutter-bottom {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  font-family: "Courier New", monospace;
+  font-size: clamp(9px, 0.75vw, 12px);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.p22-route-shutter-meta span:first-child {
+  color: #f5f5f2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 15px;
+}
+
+.p22-route-shutter-content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  text-align: center;
+}
+
+.p22-route-shutter-label {
+  margin: 0 0 22px;
+  color: #aaa;
+  font-family: "Courier New", monospace;
+  font-size: clamp(10px, 0.9vw, 13px);
+  letter-spacing: 0.24em;
+}
+
+.p22-route-shutter-title {
+  margin: 0;
+  max-width: 100%;
+
+  color: #fafafa;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(54px, 10vw, 170px);
+  font-weight: 400;
+  letter-spacing: 0.075em;
+  line-height: 0.95;
+}
+
+.p22-route-shutter-rule {
+  width: 46px;
+  height: 2px;
+  margin: 32px 0 20px;
+  background: #df2941;
+}
+
+.p22-route-shutter-caption {
+  margin: 0;
+  font-family: "Courier New", monospace;
+  font-size: clamp(9px, 0.75vw, 12px);
+  letter-spacing: 0.17em;
+  color: #777;
+}
+
+@media (max-width: 700px) {
+  .p22-route-shutter {
+    padding: 22px;
+  }
+
+  .p22-route-shutter-meta,
+  .p22-route-shutter-bottom {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .p22-route-shutter-meta span:last-child {
+    max-width: 145px;
+    text-align: right;
+  }
+
+  .p22-route-shutter-title {
+    font-size: clamp(46px, 12vw, 92px);
+    letter-spacing: 0.025em;
+  }
+
+  .p22-route-shutter-label {
+    font-size: 9px;
+    letter-spacing: 0.13em;
+  }
+
+  .p22-route-shutter-caption {
+    max-width: 250px;
+    line-height: 1.8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-route-shutter {
+    will-change: auto;
+  }
+}
+
+/* ===================================================
+   POINT22 NEGATIVE PORTAL V2
+   Experimental photographic page transition
+   =================================================== */
+
+.p22-route-shutter.p22-negative-transfer {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+
+  display: block;
+  width: 100%;
+  height: 100dvh;
+
+  padding: 0;
+  margin: 0;
+  background: transparent;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transform: none;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+.p22-route-shutter.p22-negative-transfer::before {
+  display: none;
+}
+
+.p22-negative-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #060606;
+}
+
+/* The contact-sheet negative */
+
+.p22-negative-strips {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.p22-negative-strip {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+
+  background-color: #1d1d1d;
+  background-size: cover;
+  background-position: center;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  box-sizing: border-box;
+
+  will-change: transform;
+}
+
+.p22-negative-strip:nth-child(2),
+.p22-negative-strip:nth-child(4) {
+  background-position: 62% center;
+}
+
+.p22-negative-strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.24),
+      transparent 30%,
+      rgba(0, 0, 0, 0.3) 80%,
+      rgba(0, 0, 0, 0.65)
+    );
+
+  pointer-events: none;
+}
+
+/* The photograph detached from the homepage */
+
+.p22-negative-hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+
+  background-color: #222;
+  background-size: cover;
+  background-position: center;
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.p22-negative-hero::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+
+/* Film perforations */
+
+.p22-negative-film-top,
+.p22-negative-film-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 6;
+
+  height: 22px;
+
+  background-color: #080808;
+  background-image:
+    radial-gradient(
+      ellipse 5px 7px at 15px 11px,
+      #6f6f6f 0%,
+      #6f6f6f 65%,
+      transparent 75%
+    );
+
+  background-size: 32px 22px;
+  background-repeat: repeat-x;
+  opacity: 0.9;
+}
+
+.p22-negative-film-top {
+  top: 0;
+}
+
+.p22-negative-film-bottom {
+  bottom: 0;
+}
+
+/* Red exposure / scanning light */
+
+.p22-negative-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 7;
+
+  width: 2px;
+  opacity: 0;
+
+  background: #ff304b;
+
+  box-shadow:
+    0 0 12px 3px rgba(255, 40, 65, 0.9),
+    0 0 75px 22px rgba(255, 20, 45, 0.45),
+    0 0 160px 60px rgba(255, 25, 50, 0.15);
+
+  pointer-events: none;
+}
+
+/* Editorial overlay */
+
+.p22-negative-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding:
+    clamp(34px, 4vw, 64px)
+    clamp(22px, 4vw, 70px);
+
+  color: #fff;
+  pointer-events: none;
+}
+
+.p22-negative-metadata,
+.p22-negative-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  font-family: "Courier New", monospace;
+  font-size: clamp(9px, 0.8vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.p22-negative-centre {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.p22-negative-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(92px, 16vw, 290px);
+  font-weight: 400;
+  letter-spacing: -0.085em;
+  line-height: 0.72;
+
+  color: #fff;
+  text-align: center;
+
+  mix-blend-mode: difference;
+  will-change: transform, opacity;
+}
+
+.p22-negative-heading span {
+  display: block;
+}
+
+.p22-negative-heading span:first-child {
+  transform: translateX(-9vw);
+}
+
+.p22-negative-heading span:last-child {
+  transform: translateX(9vw);
+}
+
+.p22-negative-caption {
+  margin: clamp(36px, 5vw, 75px) 0 0;
+
+  font-family: "Courier New", monospace;
+  font-size: clamp(9px, 0.9vw, 13px);
+  letter-spacing: 0.2em;
+  line-height: 1.7;
+
+  text-align: center;
+  color: #f5f5f5;
+}
+
+/* Subtle corner composition */
+
+.p22-negative-overlay::before,
+.p22-negative-overlay::after {
+  content: "";
+  position: absolute;
+
+  width: 34px;
+  height: 34px;
+
+  border-color: #eb3348;
+  border-style: solid;
+
+  opacity: 0.85;
+}
+
+.p22-negative-overlay::before {
+  top: 20%;
+  left: 5%;
+
+  border-width: 1px 0 0 1px;
+}
+
+.p22-negative-overlay::after {
+  bottom: 20%;
+  right: 5%;
+
+  border-width: 0 1px 1px 0;
+}
+
+/* Mobile */
+
+@media (max-width: 760px) {
+  .p22-negative-overlay {
+    padding: 42px 22px;
+  }
+
+  .p22-negative-heading {
+    font-size: clamp(84px, 26vw, 150px);
+    line-height: 0.78;
+  }
+
+  .p22-negative-heading span:first-child {
+    transform: translateX(-5vw);
+  }
+
+  .p22-negative-heading span:last-child {
+    transform: translateX(5vw);
+  }
+
+  .p22-negative-metadata,
+  .p22-negative-footnote {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+
+  .p22-negative-metadata span:last-child,
+  .p22-negative-footnote span:last-child {
+    max-width: 130px;
+    text-align: right;
+  }
+
+  .p22-negative-caption {
+    max-width: 250px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .p22-negative-film-top,
+  .p22-negative-film-bottom {
+    height: 16px;
+    background-size: 28px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-negative-strip,
+  .p22-negative-heading,
+  .p22-negative-hero {
+    will-change: auto;
+  }
+}
+
+
+/* ==========================================
+   POINT22 NEGATIVE PORTAL V3
+   Living-frame photographic handoff
+   ========================================== */
+
+.p22-route-shutter.p22-negative-transfer {
+  background: transparent;
+}
+
+/* A separate layer for the incoming photograph.
+   GSAP animates its position, size and exposure. */
+
+.p22-negative-arrival {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
+  display: block;
+  overflow: hidden;
+
+  width: 1px;
+  height: 1px;
+
+  background: #101010;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+  transform-origin: top left;
+
+  will-change:
+    transform,
+    width,
+    height,
+    clip-path,
+    opacity;
+}
+
+.p22-negative-arrival img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  object-fit: cover;
+  object-position: center;
+
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Subtle print-edge definition while the
+   photograph is floating over the contact sheet. */
+
+.p22-negative-arrival::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    inset 0 0 35px rgba(0, 0, 0, 0.07);
+
+  pointer-events: none;
+}
+
+/* Keep the photograph underneath the editorial
+   title during the exit, then above the strips
+   when the arrival begins. */
+
+.p22-negative-strips {
+  perspective: 1100px;
+}
+
+.p22-negative-strip {
+  backface-visibility: hidden;
+}
+
+/* Mobile compositing adjustments */
+
+@media (max-width: 760px) {
+  .p22-negative-arrival {
+    will-change: transform, opacity;
+  }
+
+  .p22-negative-arrival::after {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-negative-arrival {
+    will-change: auto;
+  }
+}
+
+
+
+/* ==================================================
+   POINT22 INTERACTIVE EXPOSURE V5
+   Light-sensitive photographic contact sheet
+   ================================================== */
+
+.p22-negative-exposure {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  opacity: 0;
+  visibility: hidden;
+
+  mix-blend-mode: screen;
+}
+
+/* Broad, slow-moving darkroom exposure.
+   No expensive blur filter is required. */
+
+.p22-negative-exposure-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: min(82vw, 820px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(246, 165, 135, 0.29) 0%,
+    rgba(217, 72, 79, 0.32) 15%,
+    rgba(151, 28, 43, 0.20) 39%,
+    rgba(83, 13, 27, 0.07) 61%,
+    transparent 76%
+  );
+
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Sharper, faster exposure highlight.
+   This follows the pointer more closely
+   than the broad halo behind it. */
+
+.p22-negative-exposure-spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: min(25vw, 240px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 222, 186, 0.49) 0%,
+    rgba(255, 156, 137, 0.33) 16%,
+    rgba(215, 60, 70, 0.18) 42%,
+    transparent 73%
+  );
+
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .p22-negative-exposure-halo {
+    width: 105vw;
+    max-width: 620px;
+  }
+
+  .p22-negative-exposure-spark {
+    width: 45vw;
+    max-width: 190px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-negative-exposure-halo,
+  .p22-negative-exposure-spark {
+    will-change: auto;
+  }
+}
+
+
+/* ==================================================
+   POINT22 DEVELOPING FRAME V6
+   Negative-to-colour photographic development
+   ================================================== */
+
+/* Both photographs occupy the exact same frame. */
+
+.p22-negative-arrival-negative,
+.p22-negative-arrival-colour {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The underlying photographic negative.
+   Slightly softened to retain the premium
+   darkroom aesthetic rather than a harsh effect. */
+
+.p22-negative-arrival-negative img {
+  filter:
+    grayscale(1)
+    invert(0.82)
+    contrast(1.08)
+    brightness(0.85);
+}
+
+/* The real, unprocessed photograph.
+   GSAP reveals this from right to left. */
+
+.p22-negative-arrival-colour {
+  z-index: 2;
+
+  clip-path: inset(0% 0% 0% 100%);
+
+  will-change: clip-path;
+}
+
+.p22-negative-arrival-colour img {
+  filter: none;
+}
+
+/* The photographic exposure boundary.
+   Warm red light with a subtle film bloom. */
+
+.p22-negative-arrival-development-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  z-index: 3;
+
+  width: 2px;
+  opacity: 0;
+
+  background: rgba(255, 202, 168, 0.95);
+
+  box-shadow:
+    0 0 9px rgba(237, 77, 79, 0.65),
+    0 0 25px rgba(197, 46, 62, 0.32);
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+  will-change: left, opacity;
+}
+
+.p22-negative-arrival-development-line::before {
+  content: "";
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: -30px;
+
+  width: 62px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(221, 67, 71, 0.08) 30%,
+    rgba(255, 173, 146, 0.18) 50%,
+    rgba(221, 67, 71, 0.08) 70%,
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .p22-negative-arrival-development-line {
+    width: 1px;
+
+    box-shadow:
+      0 0 7px rgba(237, 77, 79, 0.5),
+      0 0 16px rgba(197, 46, 62, 0.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-negative-arrival-colour,
+  .p22-negative-arrival-development-line {
+    will-change: auto;
+  }
+}
+
+/* ===============================================
+   POINT22 CONTACT SHEET PORTAL V7
+   Timeline -> Individual photographic project
+   =============================================== */
+
+.p22-print-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483100;
+
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  isolation: isolate;
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+.p22-print-portal-dark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background: #080808;
+  opacity: 0;
+}
+
+.p22-print-portal-paper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: #f4f4f3;
+
+  clip-path: circle(0% at 50% 50%);
+  will-change: clip-path;
+}
+
+/* Actual photographic print */
+
+.p22-print-portal-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+
+  overflow: hidden;
+
+  background: #161616;
+
+  box-shadow:
+    0 18px 65px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.15);
+
+  transform-origin: center;
+  will-change: transform, width, height;
+  pointer-events: none;
+}
+
+.p22-print-portal-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Darkroom exposure light */
+
+.p22-print-portal-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 6;
+
+  width: 2px;
+  opacity: 0;
+
+  background: #ffc4a9;
+
+  box-shadow:
+    0 0 15px 4px rgba(255, 90, 93, 0.7),
+    0 0 80px 28px rgba(228, 54, 69, 0.24);
+
+  pointer-events: none;
+}
+
+/* Photographic printing metadata */
+
+.p22-print-portal-editorial {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: clamp(24px, 3vw, 48px);
+
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+
+  color: rgba(25, 25, 25, 0.65);
+  pointer-events: none;
+}
+
+.p22-print-portal-titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  text-align: center;
+}
+
+.p22-print-portal-titles strong {
+  display: block;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(40px, 8vw, 130px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+
+  color: #171717;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .p22-print-portal-editorial {
+    padding: 24px 15px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .p22-print-portal-titles {
+    gap: 10px;
+  }
+
+  .p22-print-portal-titles strong {
+    font-size: clamp(32px, 11vw, 70px);
+  }
+
+  .p22-print-portal-scan {
+    width: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-print-portal-paper,
+  .p22-print-portal-photo {
+    will-change: auto;
+  }
+}
+
+
+/* ==================================================
+   POINT22 PRINT LAB V8
+   Timeline -> Photographic Project
+   ================================================== */
+
+.p22-print-portal.p22-print-v8 {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483100;
+
+  width: 100%;
+  height: 100dvh;
+  padding: 0;
+
+  isolation: isolate;
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  touch-action: none;
+
+  background: transparent;
+}
+
+.p22-print-v8 .p22-print-portal-dark {
+  z-index: 0;
+  background: #070707;
+}
+
+.p22-print-v8 .p22-print-portal-paper {
+  z-index: 1;
+  background: #f4f4f3;
+}
+
+/* ------------------------------------------
+   FIVE FILM-NEGATIVE FRAMES
+   ------------------------------------------ */
+
+.p22-print-v8-strips {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.p22-print-v8-strip {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  overflow: hidden;
+
+  background-color: #222;
+  background-repeat: no-repeat;
+  background-size: 500% 100%;
+
+  filter:
+    grayscale(1)
+    invert(0.78)
+    contrast(1.35);
+
+  border-right: 1px solid rgba(0, 0, 0, 0.35);
+
+  box-sizing: border-box;
+  backface-visibility: hidden;
+
+  will-change: transform, clip-path;
+}
+
+.p22-print-v8-strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.18),
+      transparent 25%,
+      rgba(0, 0, 0, 0.12) 75%,
+      rgba(0, 0, 0, 0.4)
+    );
+
+  pointer-events: none;
+}
+
+/* ------------------------------------------
+   THE PHYSICAL PRINT
+   ------------------------------------------ */
+
+.p22-print-v8 .p22-print-v8-print {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+
+  overflow: hidden;
+  background: #151515;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  transform-origin: center center;
+
+  will-change:
+    transform,
+    width,
+    height,
+    opacity;
+
+  pointer-events: none;
+}
+
+.p22-print-v8-negative,
+.p22-print-v8-colour,
+.p22-print-v8-fitted {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.p22-print-v8-negative {
+  z-index: 0;
+}
+
+.p22-print-v8-colour {
+  z-index: 1;
+}
+
+.p22-print-v8-fitted {
+  z-index: 2;
+  opacity: 0;
+}
+
+.p22-print-v8-negative img,
+.p22-print-v8-colour img,
+.p22-print-v8-fitted img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.p22-print-v8-negative img {
+  filter:
+    grayscale(1)
+    invert(0.82)
+    contrast(1.18)
+    brightness(0.89);
+}
+
+.p22-print-v8-colour img,
+.p22-print-v8-fitted img {
+  filter: none;
+}
+
+/* ------------------------------------------
+   CHEMICAL DEVELOPMENT BOUNDARY
+   ------------------------------------------ */
+
+.p22-print-v8-beam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  z-index: 4;
+
+  width: 2px;
+  opacity: 0;
+
+  background: #ffd5b8;
+
+  box-shadow:
+    0 0 10px 3px rgba(255, 117, 105, 0.65),
+    0 0 36px 9px rgba(218, 52, 68, 0.3);
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+  will-change: left, opacity;
+}
+
+.p22-print-v8-beam::before {
+  content: "";
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: -30px;
+
+  width: 62px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(225, 76, 72, 0.06),
+    rgba(255, 190, 155, 0.17),
+    rgba(225, 76, 72, 0.06),
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+/* ------------------------------------------
+   LIGHT-SENSITIVE DARKROOM EXPOSURE
+   ------------------------------------------ */
+
+.p22-print-v8-light {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 6;
+
+  width: min(82vw, 820px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 191, 156, 0.27) 0%,
+    rgba(219, 70, 77, 0.25) 18%,
+    rgba(136, 29, 47, 0.13) 42%,
+    transparent 74%
+  );
+
+  transform: translate(-50%, -50%);
+
+  mix-blend-mode: screen;
+  opacity: 0;
+
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ------------------------------------------
+   FILM PERFORATIONS
+   ------------------------------------------ */
+
+.p22-print-v8-perforations {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 3;
+
+  height: 18px;
+
+  background-color: #090909;
+
+  background-image:
+    radial-gradient(
+      ellipse 4px 6px at 14px 9px,
+      #797979 0%,
+      #797979 65%,
+      transparent 75%
+    );
+
+  background-size: 30px 18px;
+  background-repeat: repeat-x;
+
+  pointer-events: none;
+}
+
+.p22-print-v8-perforations.top {
+  top: 0;
+}
+
+.p22-print-v8-perforations.bottom {
+  bottom: 0;
+}
+
+/* ------------------------------------------
+   EDITORIAL PRINT-ROOM TYPOGRAPHY
+   ------------------------------------------ */
+
+.p22-print-v8 .p22-print-v8-editorial {
+  z-index: 7;
+
+  color: #f6f6f4;
+  mix-blend-mode: difference;
+
+  pointer-events: none;
+}
+
+.p22-print-v8 .p22-print-portal-titles {
+  gap: 15px;
+}
+
+.p22-print-v8 .p22-print-portal-titles > span {
+  font-family: "Courier New", monospace;
+  font-size: clamp(9px, 0.75vw, 12px);
+  letter-spacing: 0.2em;
+  line-height: 1.5;
+}
+
+.p22-print-v8 .p22-print-portal-titles strong {
+  max-width: 90vw;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 8vw, 145px);
+  font-weight: 400;
+
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+
+  color: inherit;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------
+   MOBILE PERFORMANCE AND COMPOSITION
+   ------------------------------------------ */
+
+@media (max-width: 760px) {
+  .p22-print-v8 .p22-print-v8-editorial {
+    padding: 25px 17px;
+  }
+
+  .p22-print-v8 .p22-print-portal-titles strong {
+    font-size: clamp(36px, 11vw, 75px);
+  }
+
+  .p22-print-v8 .p22-print-portal-titles > span {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .p22-print-v8-light {
+    width: 110vw;
+  }
+
+  .p22-print-v8-beam {
+    width: 1px;
+
+    box-shadow:
+      0 0 8px rgba(255, 117, 105, 0.5),
+      0 0 22px rgba(218, 52, 68, 0.2);
+  }
+
+  .p22-print-v8-perforations {
+    height: 14px;
+    background-size: 26px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-print-v8-strip,
+  .p22-print-v8 .p22-print-v8-print,
+  .p22-print-v8-beam,
+  .p22-print-v8-light {
+    will-change: auto;
+  }
+}
+
+
+
+/* ==================================================
+   POINT22 COLLAPSING CONTACT SHEET V9
+   Physical film fragments and print registration
+   ================================================== */
+
+.p22-print-v9-fragments {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+
+.p22-print-v9-fragment {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
+
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(0, 0, 0, 0.12);
+
+  backface-visibility: hidden;
+  pointer-events: none;
+
+  will-change: transform, opacity;
+}
+
+.p22-print-v9-fragment img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  filter: grayscale(1) contrast(1.15);
+
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Registration crosses:
+   subtle analog photographic alignment marks. */
+
+.p22-print-v9-register {
+  position: absolute;
+  z-index: 6;
+
+  width: 22px;
+  height: 22px;
+
+  opacity: 0;
+
+  color: #ee4b56;
+  pointer-events: none;
+
+  transform-origin: center;
+}
+
+.p22-print-v9-register::before,
+.p22-print-v9-register::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+
+.p22-print-v9-register::before {
+  top: 10px;
+  left: 0;
+
+  width: 22px;
+  height: 1px;
+}
+
+.p22-print-v9-register::after {
+  left: 10px;
+  top: 0;
+
+  width: 1px;
+  height: 22px;
+}
+
+.p22-print-v9-register.top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.p22-print-v9-register.top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.p22-print-v9-register.bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+.p22-print-v9-register.bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+
+/* Keep the interface usable on smaller devices. */
+
+@media (max-width: 760px) {
+  .p22-print-v9-fragment {
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .p22-print-v9-register {
+    width: 16px;
+    height: 16px;
+  }
+
+  .p22-print-v9-register::before {
+    top: 7px;
+    width: 16px;
+  }
+
+  .p22-print-v9-register::after {
+    left: 7px;
+    height: 16px;
+  }
+
+  .p22-print-v9-register.top-left {
+    top: 6px;
+    left: 6px;
+  }
+
+  .p22-print-v9-register.top-right {
+    top: 6px;
+    right: 6px;
+  }
+
+  .p22-print-v9-register.bottom-left {
+    bottom: 6px;
+    left: 6px;
+  }
+
+  .p22-print-v9-register.bottom-right {
+    bottom: 6px;
+    right: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-print-v9-fragment {
+    will-change: auto;
+  }
+}
+
+/* ===============================================
+   POINT22 REVERSE CONTACT SHEET V10
+   Project -> Timeline
+   =============================================== */
+
+.p22-return-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483200;
+
+  width: 100%;
+  height: 100dvh;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  background: transparent;
+  touch-action: none;
+}
+
+.p22-return-dark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background: #080808;
+  opacity: 0;
+}
+
+/* Five actual photographic frames form the
+   returning contact sheet. */
+
+.p22-return-film {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.p22-return-strip {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+
+  background-color: #151515;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  filter: grayscale(1) contrast(1.15);
+
+  border-left: 1px solid
+    rgba(255, 255, 255, 0.13);
+
+  box-sizing: border-box;
+  backface-visibility: hidden;
+
+  will-change: transform, opacity;
+}
+
+.p22-return-strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.32),
+    transparent 38%,
+    rgba(0, 0, 0, 0.45)
+  );
+
+  pointer-events: none;
+}
+
+/* The physical floating photographic print. */
+
+.p22-return-print {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+
+  overflow: hidden;
+
+  width: 1px;
+  height: 1px;
+
+  background: #151515;
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.16);
+
+  transform-origin: center;
+  pointer-events: none;
+
+  will-change: transform, width, height;
+}
+
+.p22-return-negative,
+.p22-return-colour {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.p22-return-negative {
+  z-index: 0;
+}
+
+.p22-return-colour {
+  z-index: 1;
+}
+
+.p22-return-negative img,
+.p22-return-colour img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.p22-return-negative img {
+  filter:
+    grayscale(1)
+    invert(0.82)
+    contrast(1.15)
+    brightness(0.88);
+}
+
+.p22-return-colour img {
+  filter: none;
+}
+
+/* The exposure edge restores the negative
+   to the original colour photograph. */
+
+.p22-return-beam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  z-index: 3;
+
+  width: 2px;
+  opacity: 0;
+
+  background: #ffd4b3;
+
+  box-shadow:
+    0 0 12px 3px rgba(255, 102, 94, 0.72),
+    0 0 36px 12px rgba(201, 47, 67, 0.3);
+
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Editorial photographic lab metadata. */
+
+.p22-return-editorial {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: clamp(22px, 3vw, 50px);
+
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  pointer-events: none;
+}
+
+.p22-return-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 16px;
+  text-align: center;
+}
+
+.p22-return-heading span {
+  font-family: "Courier New", monospace;
+  font-size: clamp(9px, 0.8vw, 12px);
+  letter-spacing: 0.23em;
+  line-height: 1.5;
+}
+
+.p22-return-heading strong {
+  max-width: 92vw;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(44px, 8.5vw, 140px);
+  font-weight: 400;
+
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+
+  color: #f8f8f6;
+}
+
+/* Mobile composition and performance. */
+
+@media (max-width: 760px) {
+  .p22-return-editorial {
+    padding: 25px 17px;
+    font-size: 9px;
+  }
+
+  .p22-return-heading strong {
+    font-size: clamp(34px, 10vw, 74px);
+  }
+
+  .p22-return-heading span {
+    font-size: 9px;
+    letter-spacing: 0.11em;
+  }
+
+  .p22-return-print {
+    box-shadow:
+      0 14px 35px rgba(0, 0, 0, 0.35);
+  }
+
+  .p22-return-beam {
+    width: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-return-print,
+  .p22-return-strip {
+    will-change: auto;
+  }
+}
+
+
+
+/* ==================================================
+   POINT22 UNIFIED PHOTO TRANSITIONS V11
+   Negative Portal / Print Lab / Return to Archive
+   ================================================== */
+
+:root {
+  --p22-lab-black: #080808;
+  --p22-lab-paper: #f4f4f3;
+  --p22-lab-white: #f7f6f3;
+  --p22-lab-red: #c74750;
+  --p22-lab-exposure: #ffc7ab;
+  --p22-lab-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* One darkroom black across all three scenes. */
+
+.p22-negative-backdrop,
+.p22-print-v8 .p22-print-portal-dark,
+.p22-return-dark {
+  background: var(--p22-lab-black);
+}
+
+/* The same photographic paper in both directions. */
+
+.p22-print-v8 .p22-print-portal-paper {
+  background: var(--p22-lab-paper);
+}
+
+/* One continuous warm exposure light. */
+
+.p22-negative-scan,
+.p22-print-v8-beam,
+.p22-return-beam {
+  background: var(--p22-lab-exposure);
+
+  box-shadow:
+    0 0 8px 2px rgba(255, 183, 150, 0.58),
+    0 0 32px 9px rgba(199, 71, 80, 0.32),
+    0 0 80px 24px rgba(199, 71, 80, 0.12);
+}
+
+/* A restrained physical film surface. */
+
+.p22-negative-strip::after,
+.p22-print-v8-strip::after,
+.p22-return-strip::after {
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.34),
+      transparent 29%,
+      rgba(0, 0, 0, 0.14) 72%,
+      rgba(0, 0, 0, 0.44)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 6px,
+      rgba(255, 255, 255, 0.014) 6px 7px,
+      transparent 7px 13px
+    );
+}
+
+/* Consistent editorial metadata. */
+
+.p22-negative-metadata,
+.p22-negative-footnote,
+.p22-print-v8 .p22-print-v8-editorial,
+.p22-return-editorial {
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.13em;
+}
+
+/* The new signature: 22, not the project category. */
+
+.p22-print-v8 .p22-print-portal-titles strong,
+.p22-return-heading strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(94px, 16vw, 250px);
+  font-weight: 400;
+  letter-spacing: -0.085em;
+  line-height: 0.83;
+  text-transform: none;
+}
+
+/* A print should feel physical while floating,
+   but not after it reaches the real image. */
+
+.p22-negative-arrival,
+.p22-print-v8 .p22-print-v8-print,
+.p22-return-print {
+  border-radius: 1px;
+  backface-visibility: hidden;
+}
+
+/* Mobile keeps the same photographic identity,
+   without oversized marks or excessive effects. */
+
+@media (max-width: 760px) {
+  .p22-print-v8 .p22-print-portal-titles strong,
+  .p22-return-heading strong {
+    font-size: clamp(84px, 27vw, 145px);
+    letter-spacing: -0.075em;
+  }
+
+  .p22-negative-metadata,
+  .p22-negative-footnote,
+  .p22-print-v8 .p22-print-v8-editorial,
+  .p22-return-editorial {
+    letter-spacing: 0.07em;
+  }
+
+  .p22-negative-scan,
+  .p22-print-v8-beam,
+  .p22-return-beam {
+    box-shadow:
+      0 0 6px rgba(255, 183, 150, 0.55),
+      0 0 23px 8px rgba(199, 71, 80, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-negative-arrival,
+  .p22-print-v8 .p22-print-v8-print,
+  .p22-return-print {
+    will-change: auto;
+  }
+}
+
+
+/* ==================================================
+   POINT22 PROJECT STORY PANEL
+   Editorial project notes beneath the left-side rule
+   ================================================== */
+
+.p22-detail-intro {
+  position: relative;
+  overflow: visible;
+}
+
+.p22-project-story {
+  position: absolute;
+  top: calc(100% + 28px);
+  left: 0;
+
+  width: min(285px, 100%);
+  max-height: min(35vh, 340px);
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  color: #343434;
+  text-align: left;
+
+  animation: p22-story-appear 0.75s
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.p22-project-story::-webkit-scrollbar {
+  display: none;
+}
+
+.p22-project-story-kicker {
+  margin: 0 0 13px;
+
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 400;
+
+  letter-spacing: 0.15em;
+  line-height: 1.6;
+  color: #9a9a9a;
+}
+
+.p22-project-story-title {
+  margin: 0 0 18px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(21px, 1.8vw, 29px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.16;
+
+  color: #202020;
+  text-transform: none;
+}
+
+.p22-project-story-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.p22-project-story-copy p {
+  margin: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(11px, 0.82vw, 13px);
+  font-weight: 400;
+
+  letter-spacing: 0.005em;
+  line-height: 1.68;
+  color: #646464;
+}
+
+.p22-project-story-closing {
+  margin: 21px 0 0;
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  line-height: 1.6;
+
+  letter-spacing: 0.1em;
+  color: #9a9a9a;
+}
+
+@keyframes p22-story-appear {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Narrow displays: keep the notes in normal flow
+   and compact enough for the mobile layout. */
+
+@media (max-width: 760px) {
+  .p22-project-story {
+    position: relative;
+    top: auto;
+    left: auto;
+
+    width: 100%;
+    max-height: 190px;
+    margin-top: 24px;
+  }
+
+  .p22-project-story-title {
+    font-size: 23px;
+    margin-bottom: 11px;
+  }
+
+  .p22-project-story-copy p {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .p22-project-story-closing {
+    margin-top: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-project-story {
+    animation: none;
+  }
+}
+
+
+/* ==================================================
+   POINT22 STORY-FIRST LAYOUT V2
+   Story replaces the old left-column labels
+   ================================================== */
+
+.p22-detail-intro > .p22-project-story {
+  position: relative;
+  top: auto;
+  left: auto;
+
+  width: min(310px, 100%);
+  max-height: none;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: visible;
+  scrollbar-width: auto;
+  text-align: left;
+}
+
+.p22-detail-intro .p22-project-story-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+
+  font-size: clamp(24px, 2vw, 32px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.p22-detail-intro .p22-project-story-copy {
+  gap: 14px;
+}
+
+.p22-detail-intro .p22-project-story-copy p {
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.p22-detail-intro .p22-project-story-closing {
+  margin-top: 24px;
+}
+
+@media (max-width: 760px) {
+  .p22-detail-intro > .p22-project-story {
+    position: relative;
+    top: auto;
+    width: 100%;
+    max-height: none;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .p22-detail-intro .p22-project-story-title {
+    font-size: 25px;
+    margin-bottom: 15px;
+  }
+
+  .p22-detail-intro .p22-project-story-copy p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+}
+
+
+/* ==================================================
+   POINT22 EDITORIAL STORY REFINEMENT V3
+   A readable, minimalist photographic essay
+   ================================================== */
+
+/* Keep the original left-hand column.
+   Do not reposition the image or thumbnail rail. */
+
+#main-content .p22-detail-intro {
+  text-align: left;
+  overflow: visible;
+}
+
+/* Move the story back to where the original
+   PHOTOGRAPHY label used to begin. */
+
+#main-content .p22-detail-intro > .p22-project-story {
+  position: relative;
+  top: 0;
+  left: auto;
+
+  width: min(310px, 100%);
+  max-width: 100%;
+  max-height: none;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: visible;
+
+  text-align: left;
+  text-transform: none;
+}
+
+/* Editorial title */
+
+#main-content .p22-detail-intro .p22-project-story-title {
+  margin: 0 0 19px;
+  padding: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(26px, 2.15vw, 33px);
+  font-weight: 400;
+
+  line-height: 1.14;
+  letter-spacing: -0.045em;
+  text-transform: none;
+
+  color: #252525;
+}
+
+/* Small, naturally readable paragraphs.
+   These overrides explicitly remove the
+   uppercase tracking inherited from the
+   original sidebar labels. */
+
+#main-content .p22-detail-intro .p22-project-story-copy {
+  display: flex;
+  flex-direction: column;
+
+  gap: 13px;
+
+  width: 100%;
+
+  text-align: left;
+  text-transform: none;
+}
+
+#main-content .p22-detail-intro .p22-project-story-copy p {
+  display: block;
+
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    var(--font-geist),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 12.5px;
+  font-weight: 400;
+  font-style: normal;
+
+  line-height: 1.7;
+  letter-spacing: 0 !important;
+  word-spacing: normal;
+
+  text-transform: none !important;
+  font-variant: normal;
+
+  color: #626262;
+  text-align: left;
+
+  white-space: normal;
+  overflow-wrap: normal;
+}
+
+/* Small closing annotation */
+
+#main-content .p22-detail-intro .p22-project-story-closing {
+  margin: 23px 0 0;
+  padding: 0;
+
+  font-family:
+    var(--font-geist),
+    Arial,
+    sans-serif;
+
+  font-size: 9px;
+  font-weight: 400;
+
+  line-height: 1.6;
+  letter-spacing: 0.09em;
+
+  text-transform: uppercase;
+  color: #999999;
+}
+
+/* Tablet and smaller laptops */
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  #main-content .p22-detail-intro > .p22-project-story {
+    top: -65px;
+    width: min(270px, 100%);
+  }
+
+  #main-content .p22-detail-intro .p22-project-story-title {
+    font-size: 27px;
+  }
+
+  #main-content .p22-detail-intro .p22-project-story-copy p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}
+
+/* Mobile: no negative vertical offset and
+   no hidden or scroll-trapped story paragraphs. */
+
+@media (max-width: 760px) {
+  #main-content .p22-detail-intro > .p22-project-story {
+    position: relative;
+    top: auto;
+    left: auto;
+
+    width: 100%;
+    max-width: 100%;
+    max-height: none;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: visible;
+  }
+
+  #main-content .p22-detail-intro .p22-project-story-title {
+    font-size: 27px;
+    margin-bottom: 15px;
+  }
+
+  #main-content .p22-detail-intro .p22-project-story-copy {
+    gap: 11px;
+  }
+
+  #main-content .p22-detail-intro .p22-project-story-copy p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  #main-content .p22-detail-intro .p22-project-story-closing {
+    margin-top: 18px;
+  }
+}
+
+
+
+/* ==================================================
+   POINT22 STORY REVEAL V4
+   Editorial photographic text entrance
+   ================================================== */
+
+/* Disable the older whole-panel animation.
+   Individual elements now animate independently. */
+
+#main-content .p22-detail-intro > .p22-story-reveal {
+  animation: none;
+}
+
+/* Each word appears through its own hidden mask. */
+
+.p22-story-reveal .p22-story-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+
+  margin-right: 0.24em;
+  padding-bottom: 0.05em;
+}
+
+.p22-story-reveal .p22-story-word-mask:last-child {
+  margin-right: 0;
+}
+
+.p22-story-reveal .p22-story-word {
+  display: inline-block;
+
+  opacity: 0;
+  transform: translate3d(0, 115%, 0) rotate(3deg);
+
+  transition:
+    transform 950ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 650ms ease;
+
+  transform-origin: bottom left;
+}
+
+.p22-story-reveal.is-visible .p22-story-word {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+}
+
+/* Paragraphs emerge with a small physical
+   movement and a subtle focus adjustment. */
+
+.p22-story-reveal .p22-project-story-copy p {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  filter: blur(4px);
+
+  transition:
+    opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 850ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 850ms ease;
+}
+
+.p22-story-reveal.is-visible .p22-project-story-copy p {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+/* Last element: the photographic closing note. */
+
+.p22-story-reveal .p22-project-story-closing {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+
+  transition:
+    opacity 800ms ease,
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p22-story-reveal.is-visible .p22-project-story-closing {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Accessibility: display the story immediately
+   when reduced motion is requested. */
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-story-reveal .p22-story-word,
+  .p22-story-reveal .p22-project-story-copy p,
+  .p22-story-reveal .p22-project-story-closing {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+/* ==================================================
+   POINT22 HANDWRITTEN INK REVEAL V5
+   Imperfect ink lettering / photographic field notes
+   ================================================== */
+
+:root {
+  --p22-handwriting:
+    "Walter Turncoat",
+    "Comic Sans MS",
+    cursive;
+
+  --p22-ink: #252525;
+  --p22-ink-accent: #bd4650;
+}
+
+/* THE PROJECT STORY HEADLINE */
+
+#main-content
+.p22-detail-intro
+.p22-story-reveal
+.p22-project-story-title {
+  position: relative;
+
+  width: fit-content;
+  max-width: 100%;
+
+  margin: 0 0 24px;
+
+  font-family: var(--p22-handwriting);
+  font-size: clamp(37px, 3.5vw, 52px);
+  font-weight: 400;
+
+  line-height: 1.13;
+  letter-spacing: 0.015em;
+
+  text-transform: uppercase;
+  color: var(--p22-ink);
+
+  font-synthesis: none;
+}
+
+/* Allow each word to remain together while
+   each individual character is revealed. */
+
+#main-content .p22-story-reveal .p22-story-word-mask {
+  display: inline-block;
+
+  overflow: hidden;
+  vertical-align: bottom;
+
+  margin-right: 0.22em;
+  padding-bottom: 0.08em;
+}
+
+#main-content .p22-story-reveal .p22-story-word {
+  display: inline-block;
+
+  opacity: 1;
+  transform: none;
+  transition: none;
+
+  white-space: nowrap;
+}
+
+/* THE INDIVIDUAL INK LETTERS */
+
+#main-content .p22-story-reveal .p22-story-ink-letter {
+  display: inline-block;
+
+  opacity: 0;
+
+  clip-path: inset(0 100% 0 0);
+
+  transform:
+    translate3d(0, 7px, 0)
+    rotate(-5deg);
+
+  transform-origin: 50% 80%;
+
+  transition:
+    clip-path 370ms steps(5, end),
+    opacity 200ms ease,
+    transform 490ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  will-change:
+    clip-path,
+    transform,
+    opacity;
+}
+
+/* A slight unevenness in the handwriting.
+   It should feel human, not chaotic. */
+
+#main-content
+.p22-story-reveal
+.p22-story-ink-letter:nth-child(3n) {
+  transform:
+    translate3d(0, 10px, 0)
+    rotate(5deg);
+}
+
+#main-content
+.p22-story-reveal
+.p22-story-ink-letter:nth-child(4n) {
+  transform:
+    translate3d(0, 5px, 0)
+    rotate(-3deg);
+}
+
+/* THE WRITING IS REVEALED */
+
+#main-content
+.p22-story-reveal.is-visible
+.p22-story-ink-letter {
+  opacity: 1;
+
+  clip-path: inset(0 0% 0 0);
+
+  transform:
+    translate3d(0, 0, 0)
+    rotate(0deg);
+}
+
+/* SUBTLE HAND-DRAWN RED STROKE */
+
+#main-content
+.p22-story-reveal
+.p22-project-story-title::after {
+  content: "";
+
+  position: absolute;
+  bottom: -12px;
+  right: 7px;
+
+  width: min(44%, 125px);
+  height: 2px;
+
+  border-radius: 60% 30% 55% 40%;
+
+  background: var(--p22-ink-accent);
+
+  transform:
+    scaleX(0)
+    rotate(-2deg);
+
+  transform-origin: left center;
+
+  opacity: 0;
+
+  transition:
+    transform 640ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 260ms ease;
+
+  transition-delay: 1180ms;
+}
+
+#main-content
+.p22-story-reveal.is-visible
+.p22-project-story-title::after {
+  opacity: 0.8;
+
+  transform:
+    scaleX(1)
+    rotate(-2deg);
+}
+
+/* KEEP BODY COPY READABLE.
+   Handwriting is for expression, not paragraphs. */
+
+#main-content
+.p22-detail-intro
+.p22-story-reveal
+.p22-project-story-copy p {
+  font-family:
+    var(--font-geist),
+    Arial,
+    sans-serif;
+
+  font-size: 12.5px;
+  font-weight: 400;
+
+  line-height: 1.72;
+  letter-spacing: 0 !important;
+  word-spacing: normal;
+
+  text-transform: none !important;
+  font-variant: normal;
+
+  color: #626262;
+}
+
+/* THE FINAL PHOTO-DIARY NOTE */
+
+#main-content
+.p22-detail-intro
+.p22-story-reveal
+.p22-project-story-closing {
+  font-family: var(--p22-handwriting);
+  font-size: 15px;
+  font-weight: 400;
+
+  line-height: 1.45;
+  letter-spacing: 0.035em;
+
+  text-transform: uppercase;
+  color: #747474;
+}
+
+/* HANDWRITTEN DARKROOM CAPTIONS.
+   The large signature 22 and navigation
+   keep their existing typography. */
+
+.p22-negative-caption,
+.p22-print-v8 .p22-print-portal-titles > span,
+.p22-return-heading span {
+  font-family: var(--p22-handwriting);
+  font-size: clamp(13px, 1.15vw, 18px);
+  font-weight: 400;
+
+  line-height: 1.35;
+  letter-spacing: 0.055em;
+
+  text-transform: uppercase;
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+  #main-content
+  .p22-detail-intro
+  .p22-story-reveal
+  .p22-project-story-title {
+    font-size: clamp(34px, 9vw, 47px);
+    line-height: 1.12;
+  }
+
+  #main-content
+  .p22-detail-intro
+  .p22-story-reveal
+  .p22-project-story-copy p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  #main-content
+  .p22-detail-intro
+  .p22-story-reveal
+  .p22-project-story-closing {
+    font-size: 14px;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  #main-content
+  .p22-story-reveal
+  .p22-story-ink-letter {
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto;
+  }
+
+  #main-content
+  .p22-story-reveal
+  .p22-project-story-title::after {
+    opacity: 0.8;
+    transform: scaleX(1) rotate(-2deg);
+    transition: none;
+  }
+}
+
+
+
+/* ==================================================
+   POINT22 HANDWRITTEN STORY FIX V6
+   Hand-drawn photographic diary typography
+   ================================================== */
+
+:root {
+  --p22-story-ink-font: "Walter Turncoat", cursive;
+}
+
+/* ACTUAL STORY TITLE */
+
+body #main-content
+.p22-detail-intro
+.p22-project-story.p22-story-reveal
+.p22-project-story-title.p22-ink-title {
+  display: block;
+
+  width: min(340px, 100%);
+  max-width: 100%;
+
+  margin: 0 0 24px;
+  padding: 0;
+
+  font-family: var(--p22-story-ink-font) !important;
+  font-size: clamp(28px, 2.3vw, 34px) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+
+  line-height: 1.08 !important;
+  letter-spacing: 0.005em !important;
+  text-transform: uppercase !important;
+
+  color: #222 !important;
+  font-synthesis: none;
+}
+
+/* Keep words together, but animate each letter. */
+
+.p22-story-reveal .p22-ink-word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.24em;
+  vertical-align: baseline;
+}
+
+.p22-story-reveal .p22-ink-character {
+  display: inline-block;
+
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+
+  transform:
+    translateY(8px)
+    rotate(-5deg);
+
+  transform-origin: 50% 80%;
+
+  transition:
+    opacity 200ms ease,
+    clip-path 360ms steps(5, end),
+    transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Slightly irregular first positions. */
+
+.p22-story-reveal
+.p22-ink-character:nth-child(3n) {
+  transform: translateY(11px) rotate(4deg);
+}
+
+.p22-story-reveal
+.p22-ink-character:nth-child(4n) {
+  transform: translateY(5px) rotate(-3deg);
+}
+
+/* The handwriting is progressively revealed. */
+
+.p22-story-reveal.is-visible
+.p22-ink-character {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transform: translateY(0) rotate(0);
+}
+
+/* STORY PARAGRAPHS
+   Intentionally handwritten, but without
+   enormous uppercase tracking. */
+
+body #main-content
+.p22-detail-intro
+.p22-project-story.p22-story-reveal
+.p22-project-story-copy p {
+  font-family: var(--p22-story-ink-font) !important;
+  font-size: clamp(15px, 1.12vw, 17px) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+
+  line-height: 1.55 !important;
+  letter-spacing: 0.01em !important;
+  word-spacing: normal !important;
+
+  text-transform: none !important;
+  color: #555 !important;
+}
+
+/* FINAL HANDWRITTEN FIELD NOTE */
+
+body #main-content
+.p22-detail-intro
+.p22-project-story.p22-story-reveal
+.p22-project-story-closing {
+  font-family: var(--p22-story-ink-font) !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+
+  line-height: 1.45 !important;
+  letter-spacing: 0.035em !important;
+
+  text-transform: uppercase !important;
+  color: #777 !important;
+}
+
+/* Reduced-motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .p22-story-reveal .p22-ink-character {
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body #main-content
+  .p22-detail-intro
+  .p22-project-story.p22-story-reveal
+  .p22-project-story-title.p22-ink-title {
+    font-size: clamp(26px, 7vw, 32px) !important;
+  }
+
+  body #main-content
+  .p22-detail-intro
+  .p22-project-story.p22-story-reveal
+  .p22-project-story-copy p {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+
+/* ==========================================
+   POINT22 — STORY BLOCK LOWERING FIX
+   Moves the handwritten story lower so the
+   title no longer clips at the top.
+========================================== */
+@media (min-width: 761px) {
+  .p22-project-story {
+    top: clamp(88px, 10vh, 140px) !important;
+    transform: none !important;
+  }
+
+  .p22-project-story-title {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    line-height: 0.9 !important;
+  }
+}

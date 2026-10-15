@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { getProjectStory } from "@/data/project-stories";
 import {
   useCallback,
   useEffect,
@@ -25,7 +27,137 @@ export default function TimelineProjectViewer({
   category,
   images,
 }: Props) {
+  // POINT22 PROJECT STORY PANEL
+  const pathname = usePathname();
+  const projectSlug =
+    pathname.split("/").filter(Boolean).pop() ?? "featured";
+  const projectStory = getProjectStory(projectSlug);
+
+  // POINT22 STORY REVEAL V4
+  const storyRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const story = storyRef.current;
+    if (!story) return;
+
+    story.classList.remove("is-visible");
+
+    let disposed = false;
+    let frame = 0;
+    let timeout = 0;
+    let observer: MutationObserver | null = null;
+
+    const reveal = () => {
+      if (disposed) return;
+
+      story.classList.add("is-visible");
+      observer?.disconnect();
+    };
+
+    // PRINT LAB lives outside the page and
+    // remains mounted during route navigation.
+    const portal = document.querySelector<HTMLElement>(
+      ".p22-print-portal"
+    );
+
+    const check = () => {
+      if (!portal || !portal.isConnected) {
+        reveal();
+        return;
+      }
+
+      const style = window.getComputedStyle(portal);
+
+      if (
+        style.visibility === "hidden" ||
+        Number(style.opacity) < 0.01
+      ) {
+        reveal();
+      }
+    };
+
+    if (portal) {
+      observer = new MutationObserver(check);
+
+      observer.observe(portal, {
+        attributes: true,
+        attributeFilter: ["style", "class"],
+      });
+    }
+
+    frame = window.requestAnimationFrame(check);
+
+    // Fallback if navigation or the photographic
+    // transition is interrupted.
+    timeout = window.setTimeout(reveal, 6000);
+
+    return () => {
+      disposed = true;
+      observer?.disconnect();
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
+  }, [projectSlug]);
+
   const [active, setActive] = useState(0);
+
+  // POINT22 — SELECTED PHOTOGRAPH HANDOFF
+  // The print chosen in Timeline becomes the
+  // photograph initially shown in this viewer.
+  useEffect(() => {
+    let stored: string | null = null;
+
+    try {
+      stored = window.sessionStorage.getItem(
+        "point22:timeline-project-selection"
+      );
+
+      window.sessionStorage.removeItem(
+        "point22:timeline-project-selection"
+      );
+    } catch {
+      return;
+    }
+
+    if (!stored) return;
+
+    try {
+      const selection = JSON.parse(stored) as {
+        slug: string;
+        source: string;
+        at: number;
+      };
+
+      const currentSlug =
+        window.location.pathname.split("/").pop();
+
+      if (
+        selection.slug !== currentSlug ||
+        Date.now() - selection.at > 10000
+      ) {
+        return;
+      }
+
+      const target = decodeURIComponent(
+        selection.source
+      );
+
+      const index = images.findIndex(
+        (src) => decodeURIComponent(src) === target
+      );
+
+      if (index >= 0) {
+        window.requestAnimationFrame(() => {
+          setActive(index);
+        });
+      }
+    } catch {
+      // Malformed or expired selection:
+      // keep the normal first photograph.
+    }
+  }, [images]);
+
+
   const [zoom, setZoom] = useState(false);
   const [gestures, setGestures] = useState(true);
 
@@ -53,7 +185,7 @@ export default function TimelineProjectViewer({
       );
       setZoom(false);
     },
-    [images.length]
+    [images.length, setZoom]
   );
 
   const select = (index: number) => {
@@ -218,9 +350,68 @@ export default function TimelineProjectViewer({
 
       <div className="p22-detail-stage">
         <aside className="p22-detail-intro">
-          <p>{category}</p>
-          <h1>{title}</h1>
-          <span className="p22-detail-intro-rule" />
+
+          <section
+            ref={storyRef}
+            key={projectSlug}
+            className="p22-project-story p22-story-reveal"
+            aria-label="Project story"
+          >
+
+            <h2
+              className="p22-project-story-title p22-ink-title"
+              aria-label={projectStory.title}
+            >
+              {projectStory.title
+                .split(" ")
+                .map((word, wordIndex) => (
+                  <span
+                    key={`${projectSlug}-ink-word-${wordIndex}`}
+                    className="p22-ink-word"
+                    aria-hidden="true"
+                  >
+                    {Array.from(word).map(
+                      (letter, letterIndex) => (
+                        <span
+                          key={`${wordIndex}-${letterIndex}`}
+                          className="p22-ink-character"
+                          style={{
+                            transitionDelay: `${
+                              100 +
+                              (wordIndex * 9 + letterIndex) * 42
+                            }ms`,
+                          }}
+                        >
+                          {letter}
+                        </span>
+                      )
+                    )}
+                  </span>
+                ))}
+            </h2>
+
+            <div className="p22-project-story-copy">
+              {projectStory.paragraphs.map(
+                (paragraph, index) => (
+                  <p
+                    key={`${projectSlug}-paragraph-${index}`}
+                    style={{
+                      transitionDelay: `${840 + index * 190}ms`,
+                    }}
+                  >
+                    {paragraph}
+                  </p>
+                )
+              )}
+            </div>
+
+            <p
+              className="p22-project-story-closing"
+              style={{ transitionDelay: "1350ms" }}
+            >
+              {projectStory.closing}
+            </p>
+          </section>
         </aside>
 
         <div

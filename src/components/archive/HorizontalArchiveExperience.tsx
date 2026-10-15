@@ -17,7 +17,9 @@ import {
 
 import { timelineProjects as horizontalProjects } from "@/data/timeline-projects";
 import { getPhotoMetadata } from "@/data/photo-metadata";
+import { getPhotoTitle } from "@/data/photo-titles";
 import EmblaTimeline from "@/components/archive/EmblaTimeline";
+import TimelineDateEdges from "@/components/archive/TimelineDateEdges";
 
 import "@/styles/horizontal-archive.css";
 
@@ -70,7 +72,7 @@ export default function HorizontalArchiveExperience({
 
         return [{
           src,
-          title: project.title,
+          title: getPhotoTitle(src),
           category: project.category,
           slug: project.slug,
         }];
@@ -229,6 +231,93 @@ export default function HorizontalArchiveExperience({
       );
     };
   }, [emblaApi]);
+
+  // POINT22 V10 — RESTORE SELECTED PHOTOGRAPH
+  //
+  // When returning from /timeline/[slug],
+  // select the same photograph immediately.
+  //
+  // The wheel and dragging handlers are
+  // intentionally left unchanged.
+
+  useEffect(() => {
+    if (!emblaApi || photographs.length === 0) {
+      return;
+    }
+
+    const STORAGE = "point22:timeline-return-photo";
+
+    let stored: string | null = null;
+
+    try {
+      stored = window.sessionStorage.getItem(STORAGE);
+    } catch {
+      return;
+    }
+
+    if (!stored) return;
+
+    let selection: {
+      slug: string;
+      source: string;
+      at: number;
+    };
+
+    try {
+      selection = JSON.parse(stored);
+    } catch {
+      window.sessionStorage.removeItem(STORAGE);
+      return;
+    }
+
+    if (
+      typeof selection.source !== "string" ||
+      typeof selection.at !== "number" ||
+      Date.now() - selection.at > 15000
+    ) {
+      window.sessionStorage.removeItem(STORAGE);
+      return;
+    }
+
+    const normalize = (src: string) => {
+      try {
+        const url = new URL(src, window.location.origin);
+
+        const path =
+          url.pathname === "/_next/image"
+            ? url.searchParams.get("url") ?? ""
+            : url.pathname;
+
+        return decodeURIComponent(path);
+      } catch {
+        return src;
+      }
+    };
+
+    const wanted = normalize(selection.source);
+
+    const index = photographs.findIndex(
+      (photo) =>
+        photo.slug === selection.slug &&
+        normalize(photo.src) === wanted
+    );
+
+    if (index < 0) {
+      window.sessionStorage.removeItem(STORAGE);
+      return;
+    }
+
+    // Let Embla finish initializing/reinitializing
+    // before restoring the correct position.
+    const frame = requestAnimationFrame(() => {
+      emblaApi.scrollTo(index, true);
+      setStep(index);
+
+      window.sessionStorage.removeItem(STORAGE);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [emblaApi, photographs]);
 
   const timelinePhotographs = useMemo(
     () =>
@@ -443,7 +532,11 @@ export default function HorizontalArchiveExperience({
               if (!Number.isInteger(index)) return;
 
               if (index === step) {
-                router.push(`/timeline/${photographs[index].slug}`);
+                window.dispatchEvent(
+                  new CustomEvent("point22:timeline-project-open", {
+                    detail: { slug: photographs[index].slug },
+                  })
+                );
               } else {
                 emblaApi.scrollTo(index);
               }
@@ -480,7 +573,11 @@ export default function HorizontalArchiveExperience({
                       event.stopPropagation();
 
                       if (isActive) {
-                        router.push(`/timeline/${photo.slug}`);
+                        window.dispatchEvent(
+                          new CustomEvent("point22:timeline-project-open", {
+                            detail: { slug: photo.slug },
+                          })
+                        );
                       } else {
                         emblaApi?.scrollTo(index);
                       }
@@ -530,7 +627,7 @@ export default function HorizontalArchiveExperience({
                   aria-hidden="true"
                 />
                 <strong>{current.title}</strong>
-                <span>{current.category}</span>
+                <span>22</span>
               </div>
 
               <div className="p22-showcase-hud-right">
@@ -556,6 +653,16 @@ export default function HorizontalArchiveExperience({
                   photographs={timelinePhotographs}
                 />
               )}
+              {/* POINT22 DATE EDGES V3
+                  Independent of HUD positioning. */}
+              <TimelineDateEdges
+                photographs={photographs}
+                activeIndex={step}
+                visible={inGallery}
+                onPrevious={() => move(-1)}
+                onNext={() => move(1)}
+              />
+
             </div>
           )}
         </section>

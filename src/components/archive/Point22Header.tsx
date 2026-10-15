@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePageTransition } from "@/components/transitions/PageTransitionProvider";
 
 import "@/styles/archive.css";
 
 const pages = [
   { label: "THE VIEW", href: "/" },
   { label: "TIMELINE", href: "/timeline" },
-  { label: "ABOUT", href: "/information" },
 ];
 
 export default function Point22Header() {
   const pathname = usePathname();
+  const { navigateToTimeline } = usePageTransition();
 
   const isTimeline = pathname === "/timeline";
 
@@ -57,6 +58,46 @@ export default function Point22Header() {
             <Link
               key={page.href}
               href={page.href}
+              onClick={(event) => {
+                // Return from a project through the
+                // photographic contact-sheet portal.
+                if (
+                  page.href === "/timeline" &&
+                  pathname.startsWith("/timeline/") &&
+                  !event.defaultPrevented &&
+                  event.button === 0 &&
+                  !event.metaKey &&
+                  !event.ctrlKey &&
+                  !event.shiftKey &&
+                  !event.altKey
+                ) {
+                  event.preventDefault();
+
+                  window.dispatchEvent(
+                    new Event("point22:project-return")
+                  );
+
+                  return;
+                }
+
+                // Animate only Homepage -> Timeline.
+                // Preserve normal modified-click behaviour.
+                if (
+                  page.href !== "/timeline" ||
+                  pathname !== "/" ||
+                  event.defaultPrevented ||
+                  event.button !== 0 ||
+                  event.metaKey ||
+                  event.ctrlKey ||
+                  event.shiftKey ||
+                  event.altKey
+                ) {
+                  return;
+                }
+
+                event.preventDefault();
+                navigateToTimeline();
+              }}
               className={
                 "p22-topbar-link" +
                 (active ? " is-current" : "")
@@ -69,18 +110,7 @@ export default function Point22Header() {
         })}
       </nav>
 
-      <div className="p22-topbar-right">
-        <Link
-          href="/contact"
-          className="p22-topbar-contact"
-          aria-current={
-            pathname === "/contact" ? "page" : undefined
-          }
-        >
-          CONNECT
-          <span aria-hidden="true">↗</span>
-        </Link>
-      </div>
+      <div className="p22-topbar-right" />
     </header>
   );
 }
